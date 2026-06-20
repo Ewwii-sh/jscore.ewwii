@@ -17,17 +17,18 @@ auto_plugin!(
     {
         host.log("Jscore says Hello!");
 
+        let host_clone = host.clone();
         host.register_config_engine(
             ConfigInfo {
                 extension: "js",
                 main_file: MAIN_FILE,
-
             },
-            ParseFn::new(|source, path| {
+            ParseFn::new(move |source, path| {
                 // source (&str) - source code of ewwii.js
                 // path (&str) - path to ewwii.js
 
-                let engine = engine::Engine::new();
+                let mut engine = engine::Engine::new();
+                engine.set_host(host_clone.clone());
                 engine.start_engine(source, path);
             
                 let wnode_arc = engine.get_widgetnode();

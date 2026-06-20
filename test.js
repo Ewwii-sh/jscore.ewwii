@@ -1,12 +1,36 @@
 import * as Widgets from "ewwii/widgets";
 
-console.log("JS is running!");
-
-let label = Widgets.Label().properties({
-    text: "Hello, World!",
-    truncate: true,
+// Definition
+let myBox = Widgets.Box().properties({
+    orientation: "v",
+    widget_name: "cool-box"
 });
-let win = Widgets.Window("a");
-win.add_child(label);
 
-Widgets.register(win);
+let myLabel = Widgets.Label("Hello");
+myLabel.set_property("truncate", "true");
+
+myBox.children.push(myLabel);
+
+let myWindow = Widgets.Window("bar").properties({
+    exclusive: true
+});
+myWindow.children.push(myBox);
+
+// Registration
+Widgets.register(myWindow);
+
+// == Driving Widgets ==
+export function after_render(api) {
+    // drive the widgets post render 
+    const widget = api.find("cool-box");
+
+    // example use of API:
+    widget.set_property("orientation", "h");
+
+    widget.add_class("red");
+    widget.add_classes("green", "blue", "orange");
+
+    widget.remove_class("green");
+    widget.remove_classes("red", "blue", "orange");
+}
+

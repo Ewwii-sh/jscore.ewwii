@@ -14,7 +14,7 @@ myBox.children.push(myLabel);
 let myWindow = Widgets.Window("bar").properties({
     exclusive: true
 });
-myWindow.children.push(myBox);
+myWindow.add_child(myBox);
 
 // Registration
 Widgets.register(myWindow);

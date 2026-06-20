@@ -1,3 +1,6 @@
 # Summary
 
-- [Chapter 1](./chapter_1.md)
+- [Introduction](./intro.md)
+- [Installation](./installation.md)
+- [Configuration](./config/index.md)
+    - [Basics](./config/basics.md)

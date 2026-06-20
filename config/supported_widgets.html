@@ -3,8 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>JSCore Docs</title>
-        <meta name="robots" content="noindex">
+        <title>Widget Properties - JSCore Docs</title>
 
 
         <!-- Custom HTML head -->
@@ -13,36 +12,36 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="theme-color" content="#ffffff">
 
-        <link rel="icon" href="favicon.svg">
-        <link rel="shortcut icon" href="favicon.png">
-        <link rel="stylesheet" href="css/variables.css">
-        <link rel="stylesheet" href="css/general.css">
-        <link rel="stylesheet" href="css/chrome.css">
-        <link rel="stylesheet" href="css/print.css" media="print">
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
 
         <!-- Fonts -->
-        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
-        <link rel="stylesheet" href="fonts/fonts.css">
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
 
         <!-- Highlight.js Stylesheets -->
-        <link rel="stylesheet" id="highlight-css" href="highlight.css">
-        <link rel="stylesheet" id="tomorrow-night-css" href="tomorrow-night.css">
-        <link rel="stylesheet" id="ayu-highlight-css" href="ayu-highlight.css">
+        <link rel="stylesheet" id="highlight-css" href="../highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="../tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="../ayu-highlight.css">
 
         <!-- Custom theme stylesheets -->
-        <link rel="stylesheet" href="./theme/catppuccin.css">
-        <link rel="stylesheet" href="./theme/ewwii.css">
+        <link rel="stylesheet" href=".././theme/catppuccin.css">
+        <link rel="stylesheet" href=".././theme/ewwii.css">
 
 
         <!-- Provide site root and default themes to javascript -->
         <script>
-            const path_to_root = "";
+            const path_to_root = "../";
             const default_light_theme = "latte";
             const default_dark_theme = "ewwii";
-            window.path_to_searchindex_js = "searchindex.js";
+            window.path_to_searchindex_js = "../searchindex.js";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="toc.js"></script>
+        <script src="../toc.js"></script>
     </head>
     <body>
     <div id="mdbook-help-container">
@@ -109,7 +108,7 @@
             <!-- populated by js -->
             <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
             <noscript>
-                <iframe class="sidebar-iframe-outer" src="toc.html"></iframe>
+                <iframe class="sidebar-iframe-outer" src="../toc.html"></iframe>
             </noscript>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle">
                 <div class="sidebar-resize-indicator"></div>
@@ -149,7 +148,7 @@
                     <h1 class="menu-title">JSCore Docs</h1>
 
                     <div class="right-buttons">
-                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
                             <i id="print-button" class="fa fa-print"></i>
                         </a>
                         <a href="https://github.com/Ewwii-sh/jscore.ewwii/" title="Git repository" aria-label="Git repository">
@@ -186,114 +185,7 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="jscore"><a class="header" href="#jscore">JSCore</a></h1>
-<p>Jscore or <strong>jscore.ewwii</strong> is an official JavaScript language support plugin for ewwii.
-It aims to bring the familiarity of JavaScript to the ease of use of ewwii.</p>
-<p>One of the major differences between JSCore and other ewwii language support plugins
-is that it opts for a modern, self-sufficient architecture where all the configuration
-can be done directly from the comfort of your javascript file without having to rely
-on external scripts.</p>
-<h2 id="features"><a class="header" href="#features">Features</a></h2>
-<ul>
-<li><strong>npm compatibility:</strong> Wide range of package support</li>
-<li><strong>v8 engine backend:</strong> Blazing fast evaluation</li>
-<li><strong>self-sufficient:</strong> No need for external scripts</li>
-</ul>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="installation"><a class="header" href="#installation">Installation</a></h1>
-<p>You can use the following command to install jscore using <a href="https://github.com/ewwii-sh/eiipm">eiipm</a>.</p>
-<pre><code># if you prefer prebuilt
-eiipm add "Ewwii-sh/jscore.ewwii" --prebuilt --ref &lt;version&gt;
-
-# if you prefer building yourself
-eiipm add "Ewwii-sh/jscore.ewwii"                  # Up to date with "main" branch
-eiipm add "Ewwii-sh/jscore.ewwii" --ref &lt;version&gt;  # Locked to a specific version
-</code></pre>
-<p>Or you can download it manually from <a href="https://github.com/ewwii-sh/jscore.ewwii/releases">Github Releases</a>.</p>
-<p>If you are downloading from the GitHub Releases, make sure to create a <code>plugins/</code> directory in your
-ewwii configuration and put the <code>libjscore.so</code> in there.</p>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="configuration"><a class="header" href="#configuration">Configuration</a></h1>
-<p>Jscore follows a fundamentally different style of configuration compared to ewwii. Ewwii, with <code>rhai</code> and <code>nbcl</code>,
-both capable languages, went for a declarative style of configuration for ease of use. However, jscore embraces
-the imperative nature of JavaScript and builds upon it to create a flexible and powerful configuration system.</p>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="basics"><a class="header" href="#basics">Basics</a></h1>
-<p>The entry file of jscore is <code>ewwii.js</code>. As always, create the entry file (in this case <code>ewwii.js</code>),
-and the <code>ewwii.(s)css</code> to start your configuration off.</p>
-<p>Once the files are created, you can start by first importing the widgets:</p>
-<pre><code class="language-js">import * as Widgets from "ewwii/widgets";
-</code></pre>
-<p>This contains all the widgets that you will use to build your configuration.</p>
-<h2 id="creating-a-widget"><a class="header" href="#creating-a-widget">Creating A Widget</a></h2>
-<p>Let's create a label, shall we? To create a label, call the <code>Label</code> function under the <code>Widgets</code> namespace like so:</p>
-<pre><code class="language-js">let myLabel = Widgets.Label();
-</code></pre>
-<p>This creates an empty label. To create a label that holds a value, initialize like so:</p>
-<pre><code class="language-js">let myLabel = Widgets.Label("Hello, World!");
-</code></pre>
-<p>Don't worry about widgets taking in parameters too much for now. Only a few really does that, and it mostly is a syntactical sugar.</p>
-<h2 id="assigning-properties"><a class="header" href="#assigning-properties">Assigning Properties</a></h2>
-<p>Now that we have a widget, we should be able to tweak the properties of it. There are two ways in which you can do that.
-There is no <strong>right</strong> way to set properties. You can use the method you prefer.</p>
-<h4 id="1-through-properties-function"><a class="header" href="#1-through-properties-function">1. Through <code>properties</code> function.</a></h4>
-<pre><code class="language-js">let myLabel = Widgets.Label().properties({
-    truncate: true,
-    widget_name: "my_label"
-});
-</code></pre>
-<p>The <code>properties</code> function takes in an object (i.e json) which provides a list of properties to set.</p>
-<h4 id="2-through-the-set_property-function"><a class="header" href="#2-through-the-set_property-function">2. Through the <code>set_property</code> function.</a></h4>
-<pre><code class="language-js">let myLabel = Widgets.Label();
-myLabel.set_property("truncate", true);
-myLabel.set_property("widget_name", "my_label");
-</code></pre>
-<p>The <code>set_property</code> function takes in a key and a value. The key being the name of the property,
-and the value being the value of the property to set.</p>
-<blockquote>
-<p>Regarding earlier <code>Widgets.Label("Hello, World!")</code>.</p>
-<pre><code class="language-js">let myLabel = Widgets.Label("Hello, World!");
-</code></pre>
-<p>Is syntactical sugar for:</p>
-<pre><code class="language-js">let myLabel = Widgets.Label().properties({
-    text: "Hello, World!"
-});
-</code></pre>
-</blockquote>
-<h2 id="appending-children"><a class="header" href="#appending-children">Appending Children</a></h2>
-<p>Some widgets like <code>Box</code> takes in children. You can add a child to these types of
-container widgets using the <code>add_child</code> function.</p>
-<pre><code class="language-js">let myLabel = Widgets.Label("Hello, World!");
-
-let myBox = Widgets.Box();
-myBox.add_child(myLabel); // set label as child
-</code></pre>
-<p>You would use the same <code>add_child</code> property to set the root child of a window.</p>
-<h2 id="creating-a-window"><a class="header" href="#creating-a-window">Creating a Window</a></h2>
-<p>This is the final thing you need to learn to render your first widget. We put together everything we learned till now
-to render a window that shows <code>"Hello, World!"</code>.</p>
-<pre><code class="language-js">let myLabel = Widgets.Label("Hello, World!");
-
-let myWindow = Widgets.Window("window_name");
-myWindow.add_child(mylabel);
-</code></pre>
-<p>Now the final step is to register this window to ewwii so that you can open it with a simple command like <code>ewwii open window_name</code>.</p>
-<pre><code class="language-js">Widgets.register(myWindow);
-</code></pre>
-<p>This will register your window to ewwii.</p>
-<h2 id="full-example"><a class="header" href="#full-example">Full Example</a></h2>
-<p>Here is an example code that puts everything together to render a window that shows <code>"Hello, World!"</code>:</p>
-<pre><code class="language-js">import * as Widgets from "ewwii/widgets";
-
-let myLabel = Widgets.Label("Hello, World!");
-let myBox = Widgets.Box();
-
-myBox.add_child(myLabel);
-
-let myWindow = Widgets.Window("my_window");
-myWindow.add_child(myBox);
-
-Widgets.register(myWindow);
-</code></pre>
-<p>Fabulous!</p>
-<div style="break-before: page; page-break-before: always;"></div><header><h1 id="widget-properties"><a class="header" href="#widget-properties">Widget Properties</a></h1></header><p>All the widget supported in jscore and its properties. Just for demonstration, here is how to use Revealer widget and its properties:</p>
+                        <header><h1 id="widget-properties"><a class="header" href="#widget-properties">Widget Properties</a></h1></header><p>All the widget supported in jscore and its properties. Just for demonstration, here is how to use Revealer widget and its properties:</p>
 <pre><div class="buttons"><button aria-label="Copy to clipboard" class="clip-button" title="Copy to clipboard"><i class="tooltiptext"></i></button></div><code class="language-js hljs language-javascript"><span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> <span class="hljs-title class_">Widgets</span> <span class="hljs-keyword">from</span> <span class="hljs-string">"ewwii/widgets"</span>;
 <br/>
 <span class="hljs-keyword">let</span> myRevealer = <span class="hljs-title class_">Widgets</span>.<span class="hljs-title class_">Revealer</span>().<span class="hljs-title function_">properties</span>({
@@ -305,7 +197,7 @@ Widgets.register(myWindow);
 <span class="hljs-keyword">let</span> childLabel = <span class="hljs-title class_">Widgets</span>.<span class="hljs-title class_">Label</span>(<span class="hljs-string">"Hello!"</span>);
 myRevealer.<span class="hljs-title function_">add_child</span>(childLabel);
 </code></pre>
-<h2 class="anchor anchorWithStickyNavbar_mHud" id="all">All<a aria-label="Direct link to All" class="hash-link" href="config/supported_widgets.html#all" title="Direct link to All">​</a></h2>
+<h2 class="anchor anchorWithStickyNavbar_mHud" id="all">All<a aria-label="Direct link to All" class="hash-link" href="#all" title="Direct link to All">​</a></h2>
 <p>These properties apply to all widgets, and can be used on every widget!</p>
 <p><strong>Properties</strong></p>
 <ul>
@@ -326,27 +218,27 @@ myRevealer.<span class="hljs-title function_">add_child</span>(childLabel);
 <li><code>focusable</code>: <code>bool</code> make widget focusable</li>
 <li><code>widget_name</code>: <code>string</code> custom widget name</li>
 </ul>
-<h2 class="anchor anchorWithStickyNavbar_mHud" id="comboboxtext">ComboBoxText<a aria-label="Direct link to ComboBoxText" class="hash-link" href="config/supported_widgets.html#comboboxtext" title="Direct link to ComboBoxText">​</a></h2>
+<h2 class="anchor anchorWithStickyNavbar_mHud" id="comboboxtext">ComboBoxText<a aria-label="Direct link to ComboBoxText" class="hash-link" href="#comboboxtext" title="Direct link to ComboBoxText">​</a></h2>
 <p><strong>Properties</strong></p>
 <ul>
 <li><code>items</code>: <code>vec</code> Items displayed in the combo box</li>
 <li><code>timeout</code>: <code>duration</code> timeout of the command. Default: "200ms"</li>
 <li><code>onchange</code>: <code>string</code> runs when an item is selected, replacing <code>{}</code> with the item</li>
 </ul>
-<h2 class="anchor anchorWithStickyNavbar_mHud" id="expander">Expander<a aria-label="Direct link to Expander" class="hash-link" href="config/supported_widgets.html#expander" title="Direct link to Expander">​</a></h2>
+<h2 class="anchor anchorWithStickyNavbar_mHud" id="expander">Expander<a aria-label="Direct link to Expander" class="hash-link" href="#expander" title="Direct link to Expander">​</a></h2>
 <p><strong>Properties</strong></p>
 <ul>
 <li><code>name</code>: <code>string</code> name of the expander</li>
 <li><code>expanded</code>: <code>bool</code> sets whether it's expanded</li>
 </ul>
-<h2 class="anchor anchorWithStickyNavbar_mHud" id="revealer">Revealer<a aria-label="Direct link to Revealer" class="hash-link" href="config/supported_widgets.html#revealer" title="Direct link to Revealer">​</a></h2>
+<h2 class="anchor anchorWithStickyNavbar_mHud" id="revealer">Revealer<a aria-label="Direct link to Revealer" class="hash-link" href="#revealer" title="Direct link to Revealer">​</a></h2>
 <p><strong>Properties</strong></p>
 <ul>
 <li><code>transition</code>: <code>string</code> animation name ("slideright", "slideleft", etc.)</li>
 <li><code>reveal</code>: <code>bool</code> whether the child is revealed</li>
 <li><code>duration</code>: <code>duration</code> how long the transition lasts. Default: "500ms"</li>
 </ul>
-<h2 class="anchor anchorWithStickyNavbar_mHud" id="checkbox">Checkbox<a aria-label="Direct link to Checkbox" class="hash-link" href="config/supported_widgets.html#checkbox" title="Direct link to Checkbox">​</a></h2>
+<h2 class="anchor anchorWithStickyNavbar_mHud" id="checkbox">Checkbox<a aria-label="Direct link to Checkbox" class="hash-link" href="#checkbox" title="Direct link to Checkbox">​</a></h2>
 <p><strong>Properties</strong></p>
 <ul>
 <li><code>checked</code>: <code>bool</code> initial checked state</li>
@@ -354,21 +246,21 @@ myRevealer.<span class="hljs-title function_">add_child</span>(childLabel);
 <li><code>onchecked</code>: <code>string</code> command when checked</li>
 <li><code>onunchecked</code>: <code>string</code> command when unchecked</li>
 </ul>
-<h2 class="anchor anchorWithStickyNavbar_mHud" id="colorbutton">ColorButton<a aria-label="Direct link to ColorButton" class="hash-link" href="config/supported_widgets.html#colorbutton" title="Direct link to ColorButton">​</a></h2>
+<h2 class="anchor anchorWithStickyNavbar_mHud" id="colorbutton">ColorButton<a aria-label="Direct link to ColorButton" class="hash-link" href="#colorbutton" title="Direct link to ColorButton">​</a></h2>
 <p><strong>Properties</strong></p>
 <ul>
 <li><code>use_alpha</code>: <code>bool</code> use alpha channel</li>
 <li><code>onchange</code>: <code>string</code> command on color select</li>
 <li><code>timeout</code>: <code>duration</code> Default: "200ms"</li>
 </ul>
-<h2 class="anchor anchorWithStickyNavbar_mHud" id="colorchooser">ColorChooser<a aria-label="Direct link to ColorChooser" class="hash-link" href="config/supported_widgets.html#colorchooser" title="Direct link to ColorChooser">​</a></h2>
+<h2 class="anchor anchorWithStickyNavbar_mHud" id="colorchooser">ColorChooser<a aria-label="Direct link to ColorChooser" class="hash-link" href="#colorchooser" title="Direct link to ColorChooser">​</a></h2>
 <p><strong>Properties</strong></p>
 <ul>
 <li><code>use_alpha</code>: <code>bool</code> use alpha channel</li>
 <li><code>onchange</code>: <code>string</code> command on color select</li>
 <li><code>timeout</code>: <code>duration</code> Default: "200ms"</li>
 </ul>
-<h2 class="anchor anchorWithStickyNavbar_mHud" id="scale">Scale<a aria-label="Direct link to Scale" class="hash-link" href="config/supported_widgets.html#scale" title="Direct link to Scale">​</a></h2>
+<h2 class="anchor anchorWithStickyNavbar_mHud" id="scale">Scale<a aria-label="Direct link to Scale" class="hash-link" href="#scale" title="Direct link to Scale">​</a></h2>
 <p><strong>Properties</strong></p>
 <ul>
 <li><code>flipped</code>: <code>bool</code> reverse direction</li>
@@ -383,7 +275,7 @@ myRevealer.<span class="hljs-title function_">add_child</span>(childLabel);
 <li><code>onchange</code>: <code>string</code> command on change (use <code>{}</code> for value)</li>
 <li><code>orientation</code>: <code>string</code> layout direction</li>
 </ul>
-<h2 class="anchor anchorWithStickyNavbar_mHud" id="progress">Progress<a aria-label="Direct link to Progress" class="hash-link" href="config/supported_widgets.html#progress" title="Direct link to Progress">​</a></h2>
+<h2 class="anchor anchorWithStickyNavbar_mHud" id="progress">Progress<a aria-label="Direct link to Progress" class="hash-link" href="#progress" title="Direct link to Progress">​</a></h2>
 <p><strong>Properties</strong></p>
 <ul>
 <li><code>text</code>: text to show over the progress</li>
@@ -392,7 +284,7 @@ myRevealer.<span class="hljs-title function_">add_child</span>(childLabel);
 <li><code>value</code>: <code>float</code> progress (0–100)</li>
 <li><code>orientation</code>: <code>string</code> layout direction</li>
 </ul>
-<h2 class="anchor anchorWithStickyNavbar_mHud" id="circularprogress">CircularProgress<a aria-label="Direct link to CircularProgress" class="hash-link" href="config/supported_widgets.html#circularprogress" title="Direct link to CircularProgress">​</a></h2>
+<h2 class="anchor anchorWithStickyNavbar_mHud" id="circularprogress">CircularProgress<a aria-label="Direct link to CircularProgress" class="hash-link" href="#circularprogress" title="Direct link to CircularProgress">​</a></h2>
 <p><strong>Properties</strong></p>
 <ul>
 <li><code>value</code>: <code>float</code> the progression value, between (0-100)</li>
@@ -402,7 +294,7 @@ myRevealer.<span class="hljs-title function_">add_child</span>(childLabel);
 <li><code>fg_color</code>: <code>string</code> foreground color of circle</li>
 <li><code>bg_color</code>: <code>string</code> background color of circle</li>
 </ul>
-<h2 class="anchor anchorWithStickyNavbar_mHud" id="input">Input<a aria-label="Direct link to Input" class="hash-link" href="config/supported_widgets.html#input" title="Direct link to Input">​</a></h2>
+<h2 class="anchor anchorWithStickyNavbar_mHud" id="input">Input<a aria-label="Direct link to Input" class="hash-link" href="#input" title="Direct link to Input">​</a></h2>
 <p><strong>Properties</strong></p>
 <ul>
 <li><code>value</code>: <code>string</code> set current text</li>
@@ -412,7 +304,7 @@ myRevealer.<span class="hljs-title function_">add_child</span>(childLabel);
 <li><code>onaccept</code>: <code>string</code> command on Enter (use <code>{}</code> for value)</li>
 <li><code>password</code>: <code>bool</code> obscure input</li>
 </ul>
-<h2 class="anchor anchorWithStickyNavbar_mHud" id="button">Button<a aria-label="Direct link to Button" class="hash-link" href="config/supported_widgets.html#button" title="Direct link to Button">​</a></h2>
+<h2 class="anchor anchorWithStickyNavbar_mHud" id="button">Button<a aria-label="Direct link to Button" class="hash-link" href="#button" title="Direct link to Button">​</a></h2>
 <p><strong>Properties</strong></p>
 <ul>
 <li><code>label</code>: <code>string</code> label to show on the button</li>
@@ -421,7 +313,7 @@ myRevealer.<span class="hljs-title function_">add_child</span>(childLabel);
 <li><code>onmiddleclick</code>: <code>string</code> command on middle click</li>
 <li><code>onrightclick</code>: <code>string</code> command on right click</li>
 </ul>
-<h2 class="anchor anchorWithStickyNavbar_mHud" id="image">Image<a aria-label="Direct link to Image" class="hash-link" href="config/supported_widgets.html#image" title="Direct link to Image">​</a></h2>
+<h2 class="anchor anchorWithStickyNavbar_mHud" id="image">Image<a aria-label="Direct link to Image" class="hash-link" href="#image" title="Direct link to Image">​</a></h2>
 <p><strong>Properties</strong></p>
 <ul>
 <li><code>path</code>: <code>string</code> image file path</li>
@@ -432,27 +324,27 @@ myRevealer.<span class="hljs-title function_">add_child</span>(childLabel);
 <li><code>preserve_aspect_ratio</code>: <code>bool</code> keep aspect ratio</li>
 <li><code>fill_svg</code>: <code>string</code> fill color for SVGs</li>
 </ul>
-<h2 class="anchor anchorWithStickyNavbar_mHud" id="box">Box<a aria-label="Direct link to Box" class="hash-link" href="config/supported_widgets.html#box" title="Direct link to Box">​</a></h2>
+<h2 class="anchor anchorWithStickyNavbar_mHud" id="box">Box<a aria-label="Direct link to Box" class="hash-link" href="#box" title="Direct link to Box">​</a></h2>
 <p><strong>Properties</strong></p>
 <ul>
 <li><code>spacing</code>: <code>int</code> spacing between children</li>
 <li><code>orientation</code>: <code>string</code> direction of children</li>
 <li><code>space_evenly</code>: <code>bool</code> distribute children evenly</li>
 </ul>
-<h2 class="anchor anchorWithStickyNavbar_mHud" id="overlay">Overlay<a aria-label="Direct link to Overlay" class="hash-link" href="config/supported_widgets.html#overlay" title="Direct link to Overlay">​</a></h2>
+<h2 class="anchor anchorWithStickyNavbar_mHud" id="overlay">Overlay<a aria-label="Direct link to Overlay" class="hash-link" href="#overlay" title="Direct link to Overlay">​</a></h2>
 <p><strong>Properties</strong></p>
 <p><em>None</em></p>
-<h2 class="anchor anchorWithStickyNavbar_mHud" id="tooltip">Tooltip<a aria-label="Direct link to Tooltip" class="hash-link" href="config/supported_widgets.html#tooltip" title="Direct link to Tooltip">​</a></h2>
+<h2 class="anchor anchorWithStickyNavbar_mHud" id="tooltip">Tooltip<a aria-label="Direct link to Tooltip" class="hash-link" href="#tooltip" title="Direct link to Tooltip">​</a></h2>
 <p><strong>Properties</strong></p>
 <p><em>None listed</em></p>
-<h2 class="anchor anchorWithStickyNavbar_mHud" id="scroll">Scroll<a aria-label="Direct link to Scroll" class="hash-link" href="config/supported_widgets.html#scroll" title="Direct link to Scroll">​</a></h2>
+<h2 class="anchor anchorWithStickyNavbar_mHud" id="scroll">Scroll<a aria-label="Direct link to Scroll" class="hash-link" href="#scroll" title="Direct link to Scroll">​</a></h2>
 <p><strong>Properties</strong></p>
 <ul>
 <li><code>hscroll</code>: <code>bool</code> allow horizontal scrolling</li>
 <li><code>vscroll</code>: <code>bool</code> allow vertical scrolling</li>
 <li><code>propagate_natural_height</code>: <code>bool</code> use the natural height if true</li>
 </ul>
-<h2 class="anchor anchorWithStickyNavbar_mHud" id="eventbox">EventBox<a aria-label="Direct link to EventBox" class="hash-link" href="config/supported_widgets.html#eventbox" title="Direct link to EventBox">​</a></h2>
+<h2 class="anchor anchorWithStickyNavbar_mHud" id="eventbox">EventBox<a aria-label="Direct link to EventBox" class="hash-link" href="#eventbox" title="Direct link to EventBox">​</a></h2>
 <p><strong>Properties</strong></p>
 <ul>
 <li><code>orientation</code>: <code>string</code> layout direction</li>
@@ -470,7 +362,7 @@ myRevealer.<span class="hljs-title function_">add_child</span>(childLabel);
 <li><code>onkeypress</code>: <code>string</code> command on any key press (<code>{}</code> becomes the id of the key pressed)</li>
 <li><code>onkeyrelease</code>: <code>string</code> command on any key release (<code>{}</code> becomes the id of the key released)</li>
 </ul>
-<h2 class="anchor anchorWithStickyNavbar_mHud" id="label">Label<a aria-label="Direct link to Label" class="hash-link" href="config/supported_widgets.html#label" title="Direct link to Label">​</a></h2>
+<h2 class="anchor anchorWithStickyNavbar_mHud" id="label">Label<a aria-label="Direct link to Label" class="hash-link" href="#label" title="Direct link to Label">​</a></h2>
 <p><strong>Properties</strong></p>
 <ul>
 <li><code>text</code>: <code>string</code> text to display</li>
@@ -488,7 +380,7 @@ myRevealer.<span class="hljs-title function_">add_child</span>(childLabel);
 <li><code>wrap_mode</code>: <code>string</code> wrap mode ("word", "char", etc.)</li>
 <li><code>lines</code>: <code>int</code> max lines (−1 = unlimited)</li>
 </ul>
-<h2 class="anchor anchorWithStickyNavbar_mHud" id="calendar">Calendar<a aria-label="Direct link to Calendar" class="hash-link" href="config/supported_widgets.html#calendar" title="Direct link to Calendar">​</a></h2>
+<h2 class="anchor anchorWithStickyNavbar_mHud" id="calendar">Calendar<a aria-label="Direct link to Calendar" class="hash-link" href="#calendar" title="Direct link to Calendar">​</a></h2>
 <p><strong>Properties</strong></p>
 <ul>
 <li><code>day</code>: <code>float</code> selected day</li>
@@ -500,14 +392,14 @@ myRevealer.<span class="hljs-title function_">add_child</span>(childLabel);
 <li><code>onclick</code>: <code>string</code> command with <code>{0}</code>, <code>{1}</code>, <code>{2}</code> for day/month/year</li>
 <li><code>timeout</code>: <code>duration</code> Default: "200ms"</li>
 </ul>
-<h2 class="anchor anchorWithStickyNavbar_mHud" id="stack">Stack<a aria-label="Direct link to Stack" class="hash-link" href="config/supported_widgets.html#stack" title="Direct link to Stack">​</a></h2>
+<h2 class="anchor anchorWithStickyNavbar_mHud" id="stack">Stack<a aria-label="Direct link to Stack" class="hash-link" href="#stack" title="Direct link to Stack">​</a></h2>
 <p><strong>Properties</strong></p>
 <ul>
 <li><code>selected</code>: <code>int</code> child index</li>
 <li><code>transition</code>: <code>string</code> animation name</li>
 <li><code>transition_duration</code>: <code>int</code> duration in millisecond as number</li>
 </ul>
-<h2 class="anchor anchorWithStickyNavbar_mHud" id="flowbox">FlowBox<a aria-label="Direct link to FlowBox" class="hash-link" href="config/supported_widgets.html#flowbox" title="Direct link to FlowBox">​</a></h2>
+<h2 class="anchor anchorWithStickyNavbar_mHud" id="flowbox">FlowBox<a aria-label="Direct link to FlowBox" class="hash-link" href="#flowbox" title="Direct link to FlowBox">​</a></h2>
 <p><strong>Properties</strong></p>
 <ul>
 <li><code>orientation</code>: <code>string</code> layout direction</li>
@@ -515,7 +407,7 @@ myRevealer.<span class="hljs-title function_">add_child</span>(childLabel);
 <li><code>onaccept</code>: <code>string</code> command on Enter (use <code>{}</code> for selected widget's name)</li>
 <li><code>selection_model</code>: <code>string</code> selection model</li>
 </ul>
-<h2 class="anchor anchorWithStickyNavbar_mHud" id="graph">Graph<a aria-label="Direct link to Graph" class="hash-link" href="config/supported_widgets.html#graph" title="Direct link to Graph">​</a></h2>
+<h2 class="anchor anchorWithStickyNavbar_mHud" id="graph">Graph<a aria-label="Direct link to Graph" class="hash-link" href="#graph" title="Direct link to Graph">​</a></h2>
 <p><strong>Properties</strong></p>
 <ul>
 <li><code>value</code>: <code>float</code> current value</li>
@@ -530,72 +422,18 @@ myRevealer.<span class="hljs-title function_">add_child</span>(childLabel);
 <li><code>vertical</code>: <code>bool</code> if set to true, the x and y axes will be exchanged. Default: false</li>
 <li><code>thickness</code>: <code>float</code> the thickness of the line (for line charts). Default: 1.0</li>
 <li><code>line_style</code>: <code>string</code> changes the look of the edges in the graph (for line charts). possible values: "miter" (default), "bevel", "round"</li>
-</ul><div style="break-before: page; page-break-before: always;"></div><h1 id="driving-widgets"><a class="header" href="#driving-widgets">Driving Widgets</a></h1>
-<p>This is how you update a widget after rendering in jscore. This is jscore's alternative to <code>Poll</code> and <code>Listen</code>.
-Jscore takes advantage of the superpower of the <code>ewwii wc</code> command and makes it the default way to update widgets
-through an API that abstracts all the complexity away.</p>
-<h2 id="exposing-a-widget"><a class="header" href="#exposing-a-widget">Exposing a Widget</a></h2>
-<p>First, let's learn how a widget can qualify to be updated after rendering. It just simply has to have a <code>widget_name</code>
-property set.</p>
-<pre><code class="language-js">let myBox = Widgets.Box().properties({
-    widget_name: "cool-box"
-});
-</code></pre>
-<p>That's it! <code>ewwii wc</code> can now find the widget, which this whole feature is based on.</p>
-<h2 id="setup"><a class="header" href="#setup">Setup</a></h2>
-<p>To drive a widget render render, you simply need to define a function named <code>after_render</code> and export it.</p>
-<pre><code class="language-js">export function after_render(api) {}
-</code></pre>
-<p>This function should take exactly one parameter, that is the API which you will use.</p>
-<h2 id="api"><a class="header" href="#api">API</a></h2>
-<p>The <code>api</code> parameter that is passed to the <code>after_render</code> function only has one method. That is <code>find</code>.
-You can use the <code>find</code> method to find a widget with a specific <code>widget_name</code> and update it.</p>
-<pre><code class="language-js">export function after_render(api) {
-    const widget = api.find("cool-box");
-}
-</code></pre>
-<p>Now the <code>widget</code> variable holds all the API's that can directly update the widget with the name <code>cool-box</code>.
-The <code>widget</code> variable holds these methods:</p>
-<ul>
-<li><code>set_property</code></li>
-<li><code>add_class</code></li>
-<li><code>remove_class</code></li>
-<li><code>add_classes</code></li>
-<li><code>remove_classes</code></li>
 </ul>
-<p>Signature of these methods:</p>
-<pre><code class="language-js">set_property(string, string);
-
-add_class(string);
-remove_class(string);
-
-// array of strings
-add_classes([string]); 
-remove_classes([string]);
-</code></pre>
-<h2 id="full-example-1"><a class="header" href="#full-example-1">Full Example</a></h2>
-<p>Here is an example that uses all the API's we've discussed.</p>
-<pre><code class="language-js">export function after_render(api) {
-    // suppose we have a widget 
-    // with name 'cool-box'
-    const widget = api.find("cool-box");
-
-    widget.set_property("orientation", "h");
-
-    widget.add_class("red");
-    widget.add_classes("green", "blue", "orange");
-
-    widget.remove_class("green");
-    widget.remove_classes("red", "blue", "orange");
-}
-</code></pre>
-<p>Do note that all of these runs all at once. Ideally, you'd use <code>async</code> combined with other functions to update widgets programmically.</p>
-
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../config/basics.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
 
+                            <a rel="next prefetch" href="../config/after_render.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
 
                         <div style="clear: both"></div>
                     </nav>
@@ -603,7 +441,13 @@ remove_classes([string]);
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../config/basics.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
 
+                    <a rel="next prefetch" href="../config/after_render.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
             </nav>
 
         </div>
@@ -616,22 +460,17 @@ remove_classes([string]);
         </script>
 
 
-        <script src="elasticlunr.min.js"></script>
-        <script src="mark.min.js"></script>
-        <script src="searcher.js"></script>
+        <script src="../elasticlunr.min.js"></script>
+        <script src="../mark.min.js"></script>
+        <script src="../searcher.js"></script>
 
-        <script src="clipboard.min.js"></script>
-        <script src="highlight.js"></script>
-        <script src="book.js"></script>
+        <script src="../clipboard.min.js"></script>
+        <script src="../highlight.js"></script>
+        <script src="../book.js"></script>
 
         <!-- Custom JS scripts -->
-        <script src="js/home_button.js"></script>
+        <script src="../js/home_button.js"></script>
 
-        <script>
-        window.addEventListener('load', function() {
-            window.setTimeout(window.print, 100);
-        });
-        </script>
 
 
     </div>

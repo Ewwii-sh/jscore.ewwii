@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Introduction - JSCore Docs</title>
+        <title>Basics - JSCore Docs</title>
 
 
         <!-- Custom HTML head -->
@@ -12,36 +12,36 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="theme-color" content="#ffffff">
 
-        <link rel="icon" href="favicon.svg">
-        <link rel="shortcut icon" href="favicon.png">
-        <link rel="stylesheet" href="css/variables.css">
-        <link rel="stylesheet" href="css/general.css">
-        <link rel="stylesheet" href="css/chrome.css">
-        <link rel="stylesheet" href="css/print.css" media="print">
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
 
         <!-- Fonts -->
-        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
-        <link rel="stylesheet" href="fonts/fonts.css">
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
 
         <!-- Highlight.js Stylesheets -->
-        <link rel="stylesheet" id="highlight-css" href="highlight.css">
-        <link rel="stylesheet" id="tomorrow-night-css" href="tomorrow-night.css">
-        <link rel="stylesheet" id="ayu-highlight-css" href="ayu-highlight.css">
+        <link rel="stylesheet" id="highlight-css" href="../highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="../tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="../ayu-highlight.css">
 
         <!-- Custom theme stylesheets -->
-        <link rel="stylesheet" href="./theme/catppuccin.css">
-        <link rel="stylesheet" href="./theme/ewwii.css">
+        <link rel="stylesheet" href=".././theme/catppuccin.css">
+        <link rel="stylesheet" href=".././theme/ewwii.css">
 
 
         <!-- Provide site root and default themes to javascript -->
         <script>
-            const path_to_root = "";
+            const path_to_root = "../";
             const default_light_theme = "latte";
             const default_dark_theme = "ewwii";
-            window.path_to_searchindex_js = "searchindex.js";
+            window.path_to_searchindex_js = "../searchindex.js";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="toc.js"></script>
+        <script src="../toc.js"></script>
     </head>
     <body>
     <div id="mdbook-help-container">
@@ -108,7 +108,7 @@
             <!-- populated by js -->
             <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
             <noscript>
-                <iframe class="sidebar-iframe-outer" src="toc.html"></iframe>
+                <iframe class="sidebar-iframe-outer" src="../toc.html"></iframe>
             </noscript>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle">
                 <div class="sidebar-resize-indicator"></div>
@@ -148,7 +148,7 @@
                     <h1 class="menu-title">JSCore Docs</h1>
 
                     <div class="right-buttons">
-                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
                             <i id="print-button" class="fa fa-print"></i>
                         </a>
                         <a href="https://github.com/Ewwii-sh/jscore.ewwii/" title="Git repository" aria-label="Git repository">
@@ -185,26 +185,94 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="jscore"><a class="header" href="#jscore">JSCore</a></h1>
-<p>Jscore or <strong>jscore.ewwii</strong> is an official JavaScript language support plugin for ewwii.
-It aims to bring the familiarity of JavaScript to the ease of use of ewwii.</p>
-<p>One of the major differences between JSCore and other ewwii language support plugins
-is that it opts for a modern, self-sufficient architecture where all the configuration
-can be done directly from the comfort of your javascript file without having to rely
-on external scripts.</p>
-<h2 id="features"><a class="header" href="#features">Features</a></h2>
-<ul>
-<li><strong>npm compatibility:</strong> Wide range of package support</li>
-<li><strong>v8 engine backend:</strong> Blazing fast evaluation</li>
-<li><strong>self-sufficient:</strong> No need for external scripts</li>
-</ul>
+                        <h1 id="basics"><a class="header" href="#basics">Basics</a></h1>
+<p>The entry file of jscore is <code>ewwii.js</code>. As always, create the entry file (in this case <code>ewwii.js</code>),
+and the <code>ewwii.(s)css</code> to start your configuration off.</p>
+<p>Once the files are created, you can start by first importing the widgets:</p>
+<pre><code class="language-js">import * as Widgets from "ewwii/widgets";
+</code></pre>
+<p>This contains all the widgets that you will use to build your configuration.</p>
+<h2 id="creating-a-widget"><a class="header" href="#creating-a-widget">Creating A Widget</a></h2>
+<p>Let's create a label, shall we? To create a label, call the <code>Label</code> function under the <code>Widgets</code> namespace like so:</p>
+<pre><code class="language-js">let myLabel = Widgets.Label();
+</code></pre>
+<p>This creates an empty label. To create a label that holds a value, initialize like so:</p>
+<pre><code class="language-js">let myLabel = Widgets.Label("Hello, World!");
+</code></pre>
+<p>Don't worry about widgets taking in parameters too much for now. Only a few really does that, and it mostly is a syntactical sugar.</p>
+<h2 id="assigning-properties"><a class="header" href="#assigning-properties">Assigning Properties</a></h2>
+<p>Now that we have a widget, we should be able to tweak the properties of it. There are two ways in which you can do that.
+There is no <strong>right</strong> way to set properties. You can use the method you prefer.</p>
+<h4 id="1-through-properties-function"><a class="header" href="#1-through-properties-function">1. Through <code>properties</code> function.</a></h4>
+<pre><code class="language-js">let myLabel = Widgets.Label().properties({
+    truncate: true,
+    widget_name: "my_label"
+});
+</code></pre>
+<p>The <code>properties</code> function takes in an object (i.e json) which provides a list of properties to set.</p>
+<h4 id="2-through-the-set_property-function"><a class="header" href="#2-through-the-set_property-function">2. Through the <code>set_property</code> function.</a></h4>
+<pre><code class="language-js">let myLabel = Widgets.Label();
+myLabel.set_property("truncate", true);
+myLabel.set_property("widget_name", "my_label");
+</code></pre>
+<p>The <code>set_property</code> function takes in a key and a value. The key being the name of the property,
+and the value being the value of the property to set.</p>
+<blockquote>
+<p>Regarding earlier <code>Widgets.Label("Hello, World!")</code>.</p>
+<pre><code class="language-js">let myLabel = Widgets.Label("Hello, World!");
+</code></pre>
+<p>Is syntactical sugar for:</p>
+<pre><code class="language-js">let myLabel = Widgets.Label().properties({
+    text: "Hello, World!"
+});
+</code></pre>
+</blockquote>
+<h2 id="appending-children"><a class="header" href="#appending-children">Appending Children</a></h2>
+<p>Some widgets like <code>Box</code> takes in children. You can add a child to these types of
+container widgets using the <code>add_child</code> function.</p>
+<pre><code class="language-js">let myLabel = Widgets.Label("Hello, World!");
+
+let myBox = Widgets.Box();
+myBox.add_child(myLabel); // set label as child
+</code></pre>
+<p>You would use the same <code>add_child</code> property to set the root child of a window.</p>
+<h2 id="creating-a-window"><a class="header" href="#creating-a-window">Creating a Window</a></h2>
+<p>This is the final thing you need to learn to render your first widget. We put together everything we learned till now
+to render a window that shows <code>"Hello, World!"</code>.</p>
+<pre><code class="language-js">let myLabel = Widgets.Label("Hello, World!");
+
+let myWindow = Widgets.Window("window_name");
+myWindow.add_child(mylabel);
+</code></pre>
+<p>Now the final step is to register this window to ewwii so that you can open it with a simple command like <code>ewwii open window_name</code>.</p>
+<pre><code class="language-js">Widgets.register(myWindow);
+</code></pre>
+<p>This will register your window to ewwii.</p>
+<h2 id="full-example"><a class="header" href="#full-example">Full Example</a></h2>
+<p>Here is an example code that puts everything together to render a window that shows <code>"Hello, World!"</code>:</p>
+<pre><code class="language-js">import * as Widgets from "ewwii/widgets";
+
+let myLabel = Widgets.Label("Hello, World!");
+let myBox = Widgets.Box();
+
+myBox.add_child(myLabel);
+
+let myWindow = Widgets.Window("my_window");
+myWindow.add_child(myBox);
+
+Widgets.register(myWindow);
+</code></pre>
+<p>Fabulous!</p>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../config/index.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
 
-                            <a rel="next prefetch" href="installation.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next prefetch" href="../config/supported_widgets.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
 
@@ -214,8 +282,11 @@ on external scripts.</p>
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../config/index.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
 
-                    <a rel="next prefetch" href="installation.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a rel="next prefetch" href="../config/supported_widgets.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
             </nav>
@@ -230,16 +301,16 @@ on external scripts.</p>
         </script>
 
 
-        <script src="elasticlunr.min.js"></script>
-        <script src="mark.min.js"></script>
-        <script src="searcher.js"></script>
+        <script src="../elasticlunr.min.js"></script>
+        <script src="../mark.min.js"></script>
+        <script src="../searcher.js"></script>
 
-        <script src="clipboard.min.js"></script>
-        <script src="highlight.js"></script>
-        <script src="book.js"></script>
+        <script src="../clipboard.min.js"></script>
+        <script src="../highlight.js"></script>
+        <script src="../book.js"></script>
 
         <!-- Custom JS scripts -->
-        <script src="js/home_button.js"></script>
+        <script src="../js/home_button.js"></script>
 
 
 

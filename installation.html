@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Introduction - JSCore Docs</title>
+        <title>Installation - JSCore Docs</title>
 
 
         <!-- Custom HTML head -->
@@ -185,26 +185,28 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="jscore"><a class="header" href="#jscore">JSCore</a></h1>
-<p>Jscore or <strong>jscore.ewwii</strong> is an official JavaScript language support plugin for ewwii.
-It aims to bring the familiarity of JavaScript to the ease of use of ewwii.</p>
-<p>One of the major differences between JSCore and other ewwii language support plugins
-is that it opts for a modern, self-sufficient architecture where all the configuration
-can be done directly from the comfort of your javascript file without having to rely
-on external scripts.</p>
-<h2 id="features"><a class="header" href="#features">Features</a></h2>
-<ul>
-<li><strong>npm compatibility:</strong> Wide range of package support</li>
-<li><strong>v8 engine backend:</strong> Blazing fast evaluation</li>
-<li><strong>self-sufficient:</strong> No need for external scripts</li>
-</ul>
+                        <h1 id="installation"><a class="header" href="#installation">Installation</a></h1>
+<p>You can use the following command to install jscore using <a href="https://github.com/ewwii-sh/eiipm">eiipm</a>.</p>
+<pre><code># if you prefer prebuilt
+eiipm add "Ewwii-sh/jscore.ewwii" --prebuilt --ref &lt;version&gt;
+
+# if you prefer building yourself
+eiipm add "Ewwii-sh/jscore.ewwii"                  # Up to date with "main" branch
+eiipm add "Ewwii-sh/jscore.ewwii" --ref &lt;version&gt;  # Locked to a specific version
+</code></pre>
+<p>Or you can download it manually from <a href="https://github.com/ewwii-sh/jscore.ewwii/releases">Github Releases</a>.</p>
+<p>If you are downloading from the GitHub Releases, make sure to create a <code>plugins/</code> directory in your
+ewwii configuration and put the <code>libjscore.so</code> in there.</p>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="intro.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
 
-                            <a rel="next prefetch" href="installation.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next prefetch" href="config/index.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
 
@@ -214,8 +216,11 @@ on external scripts.</p>
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="intro.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
 
-                    <a rel="next prefetch" href="installation.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a rel="next prefetch" href="config/index.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
             </nav>

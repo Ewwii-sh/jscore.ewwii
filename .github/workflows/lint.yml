@@ -2,12 +2,11 @@ name: JS Bootstrap Lint
 
 on:
   workflow_dispatch:
-    push:
-      branches:
-        - main
-    pull_request:
-      branches:
-        - main
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
 
 jobs:
   build:

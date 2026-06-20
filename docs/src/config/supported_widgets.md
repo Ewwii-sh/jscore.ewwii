@@ -1,0 +1,239 @@
+<header><h1>Widget Properties</h1></header><p>All the widget supported in jscore and its properties. Just for demonstration, here is how to use Revealer widget and its properties:</p>
+<pre><div class="buttons"><button aria-label="Copy to clipboard" class="clip-button" title="Copy to clipboard"><i class="tooltiptext"></i></button></div><code class="language-js hljs language-javascript"><span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> <span class="hljs-title class_">Widgets</span> <span class="hljs-keyword">from</span> <span class="hljs-string">"ewwii/widgets"</span>;
+<br/>
+<span class="hljs-keyword">let</span> myRevealer = <span class="hljs-title class_">Widgets</span>.<span class="hljs-title class_">Revealer</span>().<span class="hljs-title function_">properties</span>({
+    <span class="hljs-attr">transition</span>: <span class="hljs-string">"slideright"</span>,
+    <span class="hljs-attr">reveal</span>: <span class="hljs-literal">true</span>,
+    <span class="hljs-attr">duration</span>: <span class="hljs-string">"500ms"</span>
+});
+<br/>
+<span class="hljs-keyword">let</span> childLabel = <span class="hljs-title class_">Widgets</span>.<span class="hljs-title class_">Label</span>(<span class="hljs-string">"Hello!"</span>);
+myRevealer.<span class="hljs-title function_">add_child</span>(childLabel);
+</code></pre>
+
+<h2 class="anchor anchorWithStickyNavbar_mHud" id="all">All<a aria-label="Direct link to All" class="hash-link" href="#all" title="Direct link to All">​</a></h2>
+<p>These properties apply to all widgets, and can be used on every widget!</p>
+<p><strong>Properties</strong></p>
+<ul>
+<li><code>class</code>: <code>string</code> css class name</li>
+<li><code>valign</code>: <code>string</code> how to align this vertically. possible values: "fill", "baseline", "center", "start", "end"</li>
+<li><code>halign</code>: <code>string</code> how to align this horizontally. possible values: "fill", "baseline", "center", "start", "end"</li>
+<li><code>vexpand</code>: <code>bool</code> should this container expand vertically. Default: false</li>
+<li><code>hexpand</code>: <code>bool</code> should this widget expand horizontally. Default: false</li>
+<li><code>eval_ignore</code>: <code>bool</code> skip the automatic re-evaluation of this widget.</li>
+<li><code>width</code>: <code>int</code> width of this element</li>
+<li><code>height</code>: <code>int</code> height of this element</li>
+<li><code>active</code>: <code>bool</code> If this widget can be interacted with</li>
+<li><code>tooltip</code>: <code>string</code> tooltip text (on hover)</li>
+<li><code>visible</code>: <code>bool</code> visibility of the widget</li>
+<li><code>style</code>: <code>string</code> inline scss style applied to the widget</li>
+<li><code>css</code>: <code>string</code> scss code applied to the widget</li>
+<li><code>can_target</code>: <code>bool</code> make the widget targettable to pointer events.</li>
+<li><code>focusable</code>: <code>bool</code> make widget focusable</li>
+<li><code>widget_name</code>: <code>string</code> custom widget name</li>
+</ul>
+<h2 class="anchor anchorWithStickyNavbar_mHud" id="comboboxtext">ComboBoxText<a aria-label="Direct link to ComboBoxText" class="hash-link" href="#comboboxtext" title="Direct link to ComboBoxText">​</a></h2>
+<p><strong>Properties</strong></p>
+<ul>
+<li><code>items</code>: <code>vec</code> Items displayed in the combo box</li>
+<li><code>timeout</code>: <code>duration</code> timeout of the command. Default: "200ms"</li>
+<li><code>onchange</code>: <code>string</code> runs when an item is selected, replacing <code>{}</code> with the item</li>
+</ul>
+<h2 class="anchor anchorWithStickyNavbar_mHud" id="expander">Expander<a aria-label="Direct link to Expander" class="hash-link" href="#expander" title="Direct link to Expander">​</a></h2>
+<p><strong>Properties</strong></p>
+<ul>
+<li><code>name</code>: <code>string</code> name of the expander</li>
+<li><code>expanded</code>: <code>bool</code> sets whether it's expanded</li>
+</ul>
+<h2 class="anchor anchorWithStickyNavbar_mHud" id="revealer">Revealer<a aria-label="Direct link to Revealer" class="hash-link" href="#revealer" title="Direct link to Revealer">​</a></h2>
+<p><strong>Properties</strong></p>
+<ul>
+<li><code>transition</code>: <code>string</code> animation name ("slideright", "slideleft", etc.)</li>
+<li><code>reveal</code>: <code>bool</code> whether the child is revealed</li>
+<li><code>duration</code>: <code>duration</code> how long the transition lasts. Default: "500ms"</li>
+</ul>
+<h2 class="anchor anchorWithStickyNavbar_mHud" id="checkbox">Checkbox<a aria-label="Direct link to Checkbox" class="hash-link" href="#checkbox" title="Direct link to Checkbox">​</a></h2>
+<p><strong>Properties</strong></p>
+<ul>
+<li><code>checked</code>: <code>bool</code> initial checked state</li>
+<li><code>timeout</code>: <code>duration</code> command timeout. Default: "200ms"</li>
+<li><code>onchecked</code>: <code>string</code> command when checked</li>
+<li><code>onunchecked</code>: <code>string</code> command when unchecked</li>
+</ul>
+<h2 class="anchor anchorWithStickyNavbar_mHud" id="colorbutton">ColorButton<a aria-label="Direct link to ColorButton" class="hash-link" href="#colorbutton" title="Direct link to ColorButton">​</a></h2>
+<p><strong>Properties</strong></p>
+<ul>
+<li><code>use_alpha</code>: <code>bool</code> use alpha channel</li>
+<li><code>onchange</code>: <code>string</code> command on color select</li>
+<li><code>timeout</code>: <code>duration</code> Default: "200ms"</li>
+</ul>
+<h2 class="anchor anchorWithStickyNavbar_mHud" id="colorchooser">ColorChooser<a aria-label="Direct link to ColorChooser" class="hash-link" href="#colorchooser" title="Direct link to ColorChooser">​</a></h2>
+<p><strong>Properties</strong></p>
+<ul>
+<li><code>use_alpha</code>: <code>bool</code> use alpha channel</li>
+<li><code>onchange</code>: <code>string</code> command on color select</li>
+<li><code>timeout</code>: <code>duration</code> Default: "200ms"</li>
+</ul>
+<h2 class="anchor anchorWithStickyNavbar_mHud" id="scale">Scale<a aria-label="Direct link to Scale" class="hash-link" href="#scale" title="Direct link to Scale">​</a></h2>
+<p><strong>Properties</strong></p>
+<ul>
+<li><code>flipped</code>: <code>bool</code> reverse direction</li>
+<li><code>marks</code>: <code>string</code> draw marks</li>
+<li><code>draw_value</code>: <code>bool</code> show value</li>
+<li><code>value_pos</code>: <code>string</code> where to show value ("left", "right", etc.)</li>
+<li><code>round_digits</code>: <code>int</code> number of decimal places</li>
+<li><code>value</code>: <code>float</code> current value</li>
+<li><code>min</code>: <code>float</code> minimum value</li>
+<li><code>max</code>: <code>float</code> maximum value</li>
+<li><code>timeout</code>: <code>duration</code> Default: "200ms"</li>
+<li><code>onchange</code>: <code>string</code> command on change (use <code>{}</code> for value)</li>
+<li><code>orientation</code>: <code>string</code> layout direction</li>
+</ul>
+<h2 class="anchor anchorWithStickyNavbar_mHud" id="progress">Progress<a aria-label="Direct link to Progress" class="hash-link" href="#progress" title="Direct link to Progress">​</a></h2>
+<p><strong>Properties</strong></p>
+<ul>
+<li><code>text</code>: text to show over the progress</li>
+<li><code>show_text</code>: whether to show the text</li>
+<li><code>flipped</code>: <code>bool</code> reverse direction</li>
+<li><code>value</code>: <code>float</code> progress (0–100)</li>
+<li><code>orientation</code>: <code>string</code> layout direction</li>
+</ul>
+<h2 class="anchor anchorWithStickyNavbar_mHud" id="circularprogress">CircularProgress<a aria-label="Direct link to CircularProgress" class="hash-link" href="#circularprogress" title="Direct link to CircularProgress">​</a></h2>
+<p><strong>Properties</strong></p>
+<ul>
+<li><code>value</code>: <code>float</code> the progression value, between (0-100)</li>
+<li><code>start_at</code>: <code>float</code> the percentage that the circle should start at</li>
+<li><code>thickness</code>: <code>float</code> the thickness of the circle</li>
+<li><code>clockwise</code>: <code>bool</code> wether the progress bar spins clockwise or counter clockwise</li>
+<li><code>fg_color</code>: <code>string</code> foreground color of circle</li>
+<li><code>bg_color</code>: <code>string</code> background color of circle</li>
+</ul>
+<h2 class="anchor anchorWithStickyNavbar_mHud" id="input">Input<a aria-label="Direct link to Input" class="hash-link" href="#input" title="Direct link to Input">​</a></h2>
+<p><strong>Properties</strong></p>
+<ul>
+<li><code>value</code>: <code>string</code> set current text</li>
+<li><code>placeholder</code>: <code>string</code> set a placeholder text</li>
+<li><code>onchange</code>: <code>string</code> command on change (use <code>{}</code> for value)</li>
+<li><code>timeout</code>: <code>duration</code> Default: "200ms"</li>
+<li><code>onaccept</code>: <code>string</code> command on Enter (use <code>{}</code> for value)</li>
+<li><code>password</code>: <code>bool</code> obscure input</li>
+</ul>
+<h2 class="anchor anchorWithStickyNavbar_mHud" id="button">Button<a aria-label="Direct link to Button" class="hash-link" href="#button" title="Direct link to Button">​</a></h2>
+<p><strong>Properties</strong></p>
+<ul>
+<li><code>label</code>: <code>string</code> label to show on the button</li>
+<li><code>timeout</code>: <code>duration</code> Default: "200ms"</li>
+<li><code>onclick</code>: <code>string</code> command on activation</li>
+<li><code>onmiddleclick</code>: <code>string</code> command on middle click</li>
+<li><code>onrightclick</code>: <code>string</code> command on right click</li>
+</ul>
+<h2 class="anchor anchorWithStickyNavbar_mHud" id="image">Image<a aria-label="Direct link to Image" class="hash-link" href="#image" title="Direct link to Image">​</a></h2>
+<p><strong>Properties</strong></p>
+<ul>
+<li><code>path</code>: <code>string</code> image file path</li>
+<li><code>content_fit</code>: <code>string</code> how the image should fit ("fill", "contain", "cover", "scaledown")</li>
+<li><code>can_shrink</code>: <code>bool</code> whether the image can shrink or not</li>
+<li><code>image_width</code>: <code>int</code> image width</li>
+<li><code>image_height</code>: <code>int</code> image height</li>
+<li><code>preserve_aspect_ratio</code>: <code>bool</code> keep aspect ratio</li>
+<li><code>fill_svg</code>: <code>string</code> fill color for SVGs</li>
+</ul>
+<h2 class="anchor anchorWithStickyNavbar_mHud" id="box">Box<a aria-label="Direct link to Box" class="hash-link" href="#box" title="Direct link to Box">​</a></h2>
+<p><strong>Properties</strong></p>
+<ul>
+<li><code>spacing</code>: <code>int</code> spacing between children</li>
+<li><code>orientation</code>: <code>string</code> direction of children</li>
+<li><code>space_evenly</code>: <code>bool</code> distribute children evenly</li>
+</ul>
+<h2 class="anchor anchorWithStickyNavbar_mHud" id="overlay">Overlay<a aria-label="Direct link to Overlay" class="hash-link" href="#overlay" title="Direct link to Overlay">​</a></h2>
+<p><strong>Properties</strong></p>
+<p><em>None</em></p>
+<h2 class="anchor anchorWithStickyNavbar_mHud" id="tooltip">Tooltip<a aria-label="Direct link to Tooltip" class="hash-link" href="#tooltip" title="Direct link to Tooltip">​</a></h2>
+<p><strong>Properties</strong></p>
+<p><em>None listed</em></p>
+<h2 class="anchor anchorWithStickyNavbar_mHud" id="scroll">Scroll<a aria-label="Direct link to Scroll" class="hash-link" href="#scroll" title="Direct link to Scroll">​</a></h2>
+<p><strong>Properties</strong></p>
+<ul>
+<li><code>hscroll</code>: <code>bool</code> allow horizontal scrolling</li>
+<li><code>vscroll</code>: <code>bool</code> allow vertical scrolling</li>
+<li><code>propagate_natural_height</code>: <code>bool</code> use the natural height if true</li>
+</ul>
+<h2 class="anchor anchorWithStickyNavbar_mHud" id="eventbox">EventBox<a aria-label="Direct link to EventBox" class="hash-link" href="#eventbox" title="Direct link to EventBox">​</a></h2>
+<p><strong>Properties</strong></p>
+<ul>
+<li><code>orientation</code>: <code>string</code> layout direction</li>
+<li><code>timeout</code>: <code>duration</code> Default: "200ms"</li>
+<li><code>onscroll</code>: <code>string</code> command on scroll (<code>{}</code> becomes direction)</li>
+<li><code>onhover</code>: <code>string</code> command on hover</li>
+<li><code>onhoverlost</code>: <code>string</code> command on hover exit</li>
+<li><code>cursor</code>: <code>string</code> cursor type</li>
+<li><code>ondropped</code>: <code>string</code> command on drop (<code>{}</code> is URI)</li>
+<li><code>dragvalue</code>: <code>string</code> URI to drag from this widget</li>
+<li><code>dragtype</code>: <code>string</code> type to drag ("file", "text")</li>
+<li><code>onclick</code>: <code>string</code> command on click</li>
+<li><code>onmiddleclick</code>: <code>string</code> command on middle click</li>
+<li><code>onrightclick</code>: <code>string</code> command on right click</li>
+<li><code>onkeypress</code>: <code>string</code> command on any key press (<code>{}</code> becomes the id of the key pressed)</li>
+<li><code>onkeyrelease</code>: <code>string</code> command on any key release (<code>{}</code> becomes the id of the key released)</li>
+</ul>
+<h2 class="anchor anchorWithStickyNavbar_mHud" id="label">Label<a aria-label="Direct link to Label" class="hash-link" href="#label" title="Direct link to Label">​</a></h2>
+<p><strong>Properties</strong></p>
+<ul>
+<li><code>text</code>: <code>string</code> text to display</li>
+<li><code>truncate</code>: <code>bool</code> truncate text</li>
+<li><code>limit_width</code>: <code>int</code> max characters to show</li>
+<li><code>truncate_left</code>: <code>bool</code> truncate beginning</li>
+<li><code>unindent</code>: <code>bool</code> strip leading spaces</li>
+<li><code>unescape</code>: <code>bool</code> parses escape sequences</li>
+<li><code>markup</code>: <code>string</code> Pango markup</li>
+<li><code>wrap</code>: <code>bool</code> wrap text</li>
+<li><code>gravity</code>: <code>string</code> text gravity</li>
+<li><code>xalign</code>: <code>float</code> horizontal alignment</li>
+<li><code>yalign</code>: <code>float</code> vertical alignment</li>
+<li><code>justify</code>: <code>string</code> text justification</li>
+<li><code>wrap_mode</code>: <code>string</code> wrap mode ("word", "char", etc.)</li>
+<li><code>lines</code>: <code>int</code> max lines (−1 = unlimited)</li>
+</ul>
+<h2 class="anchor anchorWithStickyNavbar_mHud" id="calendar">Calendar<a aria-label="Direct link to Calendar" class="hash-link" href="#calendar" title="Direct link to Calendar">​</a></h2>
+<p><strong>Properties</strong></p>
+<ul>
+<li><code>day</code>: <code>float</code> selected day</li>
+<li><code>month</code>: <code>float</code> selected month</li>
+<li><code>year</code>: <code>float</code> selected year</li>
+<li><code>show_heading</code>: <code>bool</code> show heading</li>
+<li><code>show_day_names</code>: <code>bool</code> show day names</li>
+<li><code>show_week_numbers</code>: <code>bool</code> show week numbers</li>
+<li><code>onclick</code>: <code>string</code> command with <code>{0}</code>, <code>{1}</code>, <code>{2}</code> for day/month/year</li>
+<li><code>timeout</code>: <code>duration</code> Default: "200ms"</li>
+</ul>
+<h2 class="anchor anchorWithStickyNavbar_mHud" id="stack">Stack<a aria-label="Direct link to Stack" class="hash-link" href="#stack" title="Direct link to Stack">​</a></h2>
+<p><strong>Properties</strong></p>
+<ul>
+<li><code>selected</code>: <code>int</code> child index</li>
+<li><code>transition</code>: <code>string</code> animation name</li>
+<li><code>transition_duration</code>: <code>int</code> duration in millisecond as number</li>
+</ul>
+<h2 class="anchor anchorWithStickyNavbar_mHud" id="flowbox">FlowBox<a aria-label="Direct link to FlowBox" class="hash-link" href="#flowbox" title="Direct link to FlowBox">​</a></h2>
+<p><strong>Properties</strong></p>
+<ul>
+<li><code>orientation</code>: <code>string</code> layout direction</li>
+<li><code>space_evenly</code>: <code>bool</code> distribute children evenly</li>
+<li><code>onaccept</code>: <code>string</code> command on Enter (use <code>{}</code> for selected widget's name)</li>
+<li><code>selection_model</code>: <code>string</code> selection model</li>
+</ul>
+<h2 class="anchor anchorWithStickyNavbar_mHud" id="graph">Graph<a aria-label="Direct link to Graph" class="hash-link" href="#graph" title="Direct link to Graph">​</a></h2>
+<p><strong>Properties</strong></p>
+<ul>
+<li><code>value</code>: <code>float</code> current value</li>
+<li><code>type</code>: <code>string</code> graph type. possible values: "line" (default), "step-line", "fill", "step-fill"</li>
+<li><code>time_range</code>: <code>duration</code> the range of time to show. Default: "10s"</li>
+<li><code>min</code>: <code>float</code> minimum value</li>
+<li><code>max</code>: <code>float</code> maximum value</li>
+<li><code>dynamic</code>: <code>bool</code> whether the y range should dynamically change based on value. Default: true</li>
+<li><code>animate</code>: <code>bool</code> enable smooth scrolling. Default: true</li>
+<li><code>flip_x</code>: <code>bool</code> flip the graph horizontally. Default: false</li>
+<li><code>flip_y</code>: <code>bool</code> flip the graph horizontally. Default: false</li>
+<li><code>vertical</code>: <code>bool</code> if set to true, the x and y axes will be exchanged. Default: false</li>
+<li><code>thickness</code>: <code>float</code> the thickness of the line (for line charts). Default: 1.0</li>
+<li><code>line_style</code>: <code>string</code> changes the look of the edges in the graph (for line charts). possible values: "miter" (default), "bevel", "round"</li>
+</ul>

@@ -1,6 +1,6 @@
 name: Build and deploy Github pages
+
 on:
-  workflow_dispatch:
   push:
     branches:
       - main
@@ -20,6 +20,14 @@ jobs:
     steps:
       # Checkout
       - uses: actions/checkout@master
+
+      # Setup
+      - name: Install Dependencies
+        run: sudo apt install python-requests python-bs4
+      - name: Setup Widgets
+        run: |
+          cd docs
+          python3 gen-docs.py
 
       # Build & deploy
       - name: build mdBook page

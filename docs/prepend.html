@@ -1,0 +1,12 @@
+<p>All the widget supported in jscore and its properties. Just for demonstration, here is how to use Revealer widget and its properties:</p>
+<pre><div class="buttons"><button class="clip-button" title="Copy to clipboard" aria-label="Copy to clipboard"><i class="tooltiptext"></i></button></div><code class="language-js hljs language-javascript"><span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> <span class="hljs-title class_">Widgets</span> <span class="hljs-keyword">from</span> <span class="hljs-string">"ewwii/widgets"</span>;
+<br/>
+<span class="hljs-keyword">let</span> myRevealer = <span class="hljs-title class_">Widgets</span>.<span class="hljs-title class_">Revealer</span>().<span class="hljs-title function_">properties</span>({
+    <span class="hljs-attr">transition</span>: <span class="hljs-string">"slideright"</span>,
+    <span class="hljs-attr">reveal</span>: <span class="hljs-literal">true</span>,
+    <span class="hljs-attr">duration</span>: <span class="hljs-string">"500ms"</span>
+});
+<br/>
+<span class="hljs-keyword">let</span> childLabel = <span class="hljs-title class_">Widgets</span>.<span class="hljs-title class_">Label</span>(<span class="hljs-string">"Hello!"</span>);
+myRevealer.<span class="hljs-title function_">add_child</span>(childLabel);
+</code></pre>

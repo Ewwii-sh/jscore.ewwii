@@ -4,4 +4,5 @@
 - [Installation](./installation.md)
 - [Configuration](./config/index.md)
     - [Basics](./config/basics.md)
+    - [Widget Properties](./config/supported_widgets.md)
     - [Driving Widgets](./config/after_render.md)

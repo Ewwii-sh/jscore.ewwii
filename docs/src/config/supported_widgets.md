@@ -1,5 +1,8 @@
-<header><h1>Widget Properties</h1></header><p>All the widget supported in jscore and its properties. Just for demonstration, here is how to use Revealer widget and its properties:</p>
-<pre><div class="buttons"><button aria-label="Copy to clipboard" class="clip-button" title="Copy to clipboard"><i class="tooltiptext"></i></button></div><code class="language-js hljs language-javascript"><span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> <span class="hljs-title class_">Widgets</span> <span class="hljs-keyword">from</span> <span class="hljs-string">"ewwii/widgets"</span>;
+<header><h1>Widget Properties</h1></header><div>
+<p>
+  All the widget supported in jscore and its properties. Just for demonstration, here is how to use Revealer widget and its properties:
+ </p>
+<pre><code class="language-js hljs language-javascript"><span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> <span class="hljs-title class_">Widgets</span> <span class="hljs-keyword">from</span> <span class="hljs-string">"ewwii/widgets"</span>;
 <br/>
 <span class="hljs-keyword">let</span> myRevealer = <span class="hljs-title class_">Widgets</span>.<span class="hljs-title class_">Revealer</span>().<span class="hljs-title function_">properties</span>({
     <span class="hljs-attr">transition</span>: <span class="hljs-string">"slideright"</span>,
@@ -8,9 +11,8 @@
 });
 <br/>
 <span class="hljs-keyword">let</span> childLabel = <span class="hljs-title class_">Widgets</span>.<span class="hljs-title class_">Label</span>(<span class="hljs-string">"Hello!"</span>);
-myRevealer.<span class="hljs-title function_">add_child</span>(childLabel);
-</code></pre>
-
+myRevealer.<span class="hljs-title function_">add_child</span>(childLabel);</code></pre>
+</div>
 <h2 class="anchor anchorWithStickyNavbar_mHud" id="all">All<a aria-label="Direct link to All" class="hash-link" href="#all" title="Direct link to All">​</a></h2>
 <p>These properties apply to all widgets, and can be used on every widget!</p>
 <p><strong>Properties</strong></p>

@@ -12,7 +12,7 @@ header = docs.find('header')
 
 with open("prepend.html") as f:
     html = BeautifulSoup(f.read(), 'html.parser')
-    header.insert_after(html)
+    header.insert_after(html.find('div'))
 
 with open("src/config/supported_widgets.md", "w", encoding="utf-8") as f:
     f.write(docs.decode_contents())

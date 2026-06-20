@@ -25,33 +25,47 @@ fn op_register_window_json(state: &mut OpState, #[string] json: &str) {
 }
 
 #[op2(fast)]
-fn op_update_widget_property(state: &mut OpState, #[string] widget: &str, #[string] name: &str, #[string] value: &str) {
-    if let Some(Some(host)) = state.try_borrow_mut::<Option<Arc<dyn EwwiiAPI>>>() {
-        host.ipc_request(IpcRequest::WidgetControl(WidgetControlType::PropertyUpdate {
-            widget: widget.to_string(),
-            prop: name.to_string(),
-            value: value.to_string()
-        }));
+fn op_update_widget_property(state: &mut OpState, #[string] widget: String, #[string] name: String, #[string] value: String) {
+    // 1. Snatch a clone of the Arc handle and release the OpState borrow immediately
+    if let Some(Some(host)) = state.try_borrow::<Option<Arc<dyn EwwiiAPI>>>() {
+        let host = Arc::clone(host);
+        
+        // 2. Offload the ipc_request and its FutureResult dropping completely to a separate OS thread
+        std::thread::spawn(move || {
+            let _ = host.ipc_request(IpcRequest::WidgetControl(WidgetControlType::PropertyUpdate {
+                widget,
+                prop: name,
+                value,
+            }));
+        });
     }
 }
 
 #[op2(fast)]
-fn op_widget_add_class(state: &mut OpState, #[string] widget: &str, #[string] class: &str) {
-    if let Some(Some(host)) = state.try_borrow_mut::<Option<Arc<dyn EwwiiAPI>>>() {
-        host.ipc_request(IpcRequest::WidgetControl(WidgetControlType::AddClass {
-            widget: widget.to_string(),
-            class: class.to_string(),
-        }));
+fn op_widget_add_class(state: &mut OpState, #[string] widget: String, #[string] class: String) {
+    if let Some(Some(host)) = state.try_borrow::<Option<Arc<dyn EwwiiAPI>>>() {
+        let host = Arc::clone(host);
+        
+        std::thread::spawn(move || {
+            let _ = host.ipc_request(IpcRequest::WidgetControl(WidgetControlType::AddClass {
+                widget,
+                class,
+            }));
+        });
     }
 }
 
 #[op2(fast)]
-fn op_widget_remove_class(state: &mut OpState, #[string] widget: &str, #[string] class: &str) {
-    if let Some(Some(host)) = state.try_borrow_mut::<Option<Arc<dyn EwwiiAPI>>>() {
-        host.ipc_request(IpcRequest::WidgetControl(WidgetControlType::RemoveClass {
-            widget: widget.to_string(),
-            class: class.to_string()
-        }));       
+fn op_widget_remove_class(state: &mut OpState, #[string] widget: String, #[string] class: String) {
+    if let Some(Some(host)) = state.try_borrow::<Option<Arc<dyn EwwiiAPI>>>() {
+        let host = Arc::clone(host);
+        
+        std::thread::spawn(move || {
+            let _ = host.ipc_request(IpcRequest::WidgetControl(WidgetControlType::RemoveClass {
+                widget,
+                class,
+            }));       
+        });
     }
 }
 
@@ -81,47 +95,64 @@ impl Engine {
     }
 
     pub fn start_engine(&self, user_js_code: &str, user_js_path: &str) {
-        let mut runtime_opts = RuntimeOptions::default();
-        runtime_opts.extensions = vec![jscore_extension::init()];
-        runtime_opts.module_loader = Some(Rc::new(CustomResolver::new()));
-        runtime_opts.create_params = Some(
-            v8::Isolate::create_params()
-                .heap_limits(0, 128 * 1024 * 1024)
-        );
+        let user_js_code_clone = user_js_code.to_string();
+        let user_js_path_clone = user_js_path.to_string();
+        let widget_state_clone = self.widget_state.clone();
+        let host_clone = self.host.clone();
 
-        let mut runtime = JsRuntime::new(runtime_opts);
-        runtime.execute_script("__bootstrap.js", BOOTSTRAP_JS).unwrap();
-        runtime.execute_script("__runtime.js", RUNTIME_JS).unwrap();
+        let (ready_tx, ready_rx) = std::sync::mpsc::channel::<()>();
+        
+        std::thread::spawn(move || {
+            let user_js_code = user_js_code_clone;
+            let user_js_path = user_js_path_clone;
 
-        let op_state = runtime.op_state();
-        op_state.borrow_mut().put(self.widget_state.clone());
-        op_state.borrow_mut().put(self.host.clone());
+            let mut runtime_opts = RuntimeOptions::default();
+            runtime_opts.extensions = vec![jscore_extension::init()];
+            runtime_opts.module_loader = Some(Rc::new(CustomResolver::new()));
+            runtime_opts.create_params = Some(
+                v8::Isolate::create_params()
+                    .heap_limits(0, 128 * 1024 * 1024)
+            );
 
-        futures::executor::block_on(async {
-            let module_specifier = deno_core::ModuleSpecifier::parse(&format!("file:///{}", user_js_path)).unwrap();
+            let mut runtime = JsRuntime::new(runtime_opts);
+            runtime.execute_script("__bootstrap.js", BOOTSTRAP_JS).unwrap();
+            runtime.execute_script("__runtime.js", RUNTIME_JS).unwrap();
 
-            let module_id = match runtime.load_side_es_module_from_code(&module_specifier, user_js_code.to_string()).await {
-                Ok(id) => id,
-                Err(err) => {
-                    eprintln!("JavaScript Compilation Error: Check your syntax or imports!\nDetails: {}", err);
+            let op_state = runtime.op_state();
+            op_state.borrow_mut().put(widget_state_clone.clone());
+            op_state.borrow_mut().put(host_clone.clone());
+
+            futures::executor::block_on(async {
+                let module_specifier = deno_core::ModuleSpecifier::parse(&format!("file:///{}", user_js_path)).unwrap();
+
+                let module_id = match runtime.load_side_es_module_from_code(&module_specifier, user_js_code.to_string()).await {
+                    Ok(id) => id,
+                    Err(err) => {
+                        eprintln!("JavaScript Compilation Error: Check your syntax or imports!\nDetails: {}", err);
+                        return;
+                    }
+                };
+
+                let evaluation_result = runtime.mod_evaluate(module_id);
+                if let Err(err) = runtime.run_event_loop(Default::default()).await {
+                    eprintln!("Runtime Event Loop Error: {}", err);
                     return;
                 }
-            };
 
-            let evaluation_result = runtime.mod_evaluate(module_id);
-            if let Err(err) = runtime.run_event_loop(Default::default()).await {
-                eprintln!("Runtime Event Loop Error: {}", err);
-                return;
-            }
+                let _ = ready_tx.send(());
 
-            if let Err(err) = evaluation_result.await {
-                eprintln!("Uncaught JavaScript Exception: {}", err);
-                return;
-            }
+                if let Err(err) = evaluation_result.await {
+                    eprintln!("Uncaught JavaScript Exception: {}", err);
+                    return;
+                }
 
-            trigger_after_render_lifecycle(&mut runtime, module_id, "main").await;
-            let _ = runtime.run_event_loop(Default::default()).await;
+                // maybe wait for windows to be initialized?
+                trigger_after_render_lifecycle(&mut runtime, module_id).await;
+                let _ = runtime.run_event_loop(Default::default()).await;
+            });
         });
+
+        let _ = ready_rx.recv();
     }
 
     pub fn get_widgetnode(&self) -> Arc<Mutex<WidgetNode>> {
@@ -129,32 +160,43 @@ impl Engine {
     }
 }
 
-async fn trigger_after_render_lifecycle(runtime: &mut JsRuntime, module_id: deno_core::ModuleId, window_name: &str) {
+async fn trigger_after_render_lifecycle(runtime: &mut JsRuntime, module_id: deno_core::ModuleId) {
     let module_namespace = runtime.get_module_namespace(module_id).expect("Failed to get module namespace");
     let global_ctx = runtime.main_context();
     let isolate = runtime.v8_isolate();
 
-    v8::scope_with_context!(scope, isolate, global_ctx);
-    let module_obj = v8::Local::new(scope, module_namespace);
+    let global_handles = {
+        v8::scope_with_context!(scope, &mut *isolate, global_ctx);
+        let module_obj = v8::Local::new(&mut *scope, module_namespace);
 
-    let key = v8::String::new(scope, "after_render").unwrap();
-    if let Some(exported_value) = module_obj.get(scope, key.into()) {
-        if exported_value.is_function() {
-            let function: v8::Local<v8::Function> = exported_value.try_into().unwrap();
+        let key = v8::String::new(&mut *scope, "after_render").unwrap();
+        if let Some(exported_value) = module_obj.get(&mut *scope, key.into()) {
+            if exported_value.is_function() {
+                let function: v8::Local<v8::Function> = exported_value.try_into().unwrap();
 
-            let script_source = v8::String::new(scope, &format!("new WidgetAPI('{}')", window_name)).unwrap();
-            let script = v8::Script::compile(scope, script_source, None).unwrap();
-            let api_instance = script.run(scope).unwrap();
+                let script_source = v8::String::new(&mut *scope, "new WidgetAPI()").unwrap();
+                let script = v8::Script::compile(&mut *scope, script_source, None).unwrap();
+                let api_instance = script.run(&mut *scope).unwrap();
 
-            let receiver = v8::undefined(scope).into();
-            let args = [api_instance];
-
-            match function.call(scope, receiver, &args) {
-                Some(_) => {},
-                None => eprintln!("Runtime Error occurred during after_render script execution."),
+                Some((
+                    v8::Global::new(&mut *scope, function),
+                    v8::Global::new(&mut *scope, api_instance),
+                ))
+            } else {
+                println!("Lifecycle Warning: 'after_render' export is missing or not a function. Skipping execution.");
+                None
             }
         } else {
-            println!("Lifecycle Warning: 'after_render' export is missing or not a function. Skipping execution.");
+            None
+        }
+    }; 
+
+    if let Some((global_function, global_api_instance)) = global_handles {
+        let call_future = runtime.call_with_args(&global_function, &[global_api_instance]);
+        
+        match call_future.await {
+            Ok(_) => {}
+            Err(err) => eprintln!("Runtime Error occurred during after_render script execution: {}", err),
         }
     }
 }

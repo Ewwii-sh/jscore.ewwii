@@ -5,7 +5,7 @@ class WidgetAPI {
 }
 
 class LiveWidgetHandle {
-    constructor(windowName, widgetId) {
+    constructor(widgetId) {
         this.widgetId = widgetId;
     }
 

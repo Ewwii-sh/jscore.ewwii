@@ -23,7 +23,7 @@ jobs:
 
       # Setup
       - name: Install Dependencies
-        run: sudo apt install python-requests python-bs4
+        run: sudo apt install python3-requests python3-bs4
       - name: Setup Widgets
         run: |
           cd docs

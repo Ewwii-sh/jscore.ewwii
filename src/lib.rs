@@ -1,6 +1,7 @@
 mod resolver;
 mod engine;
 mod convert;
+mod ext;
 
 use ewwii_plugin_api::{
     auto_plugin, PluginInfo,

@@ -1,6 +1,7 @@
 mod resolver;
 mod engine;
 mod convert;
+mod ext;
 
 use std::path::PathBuf;
 use std::env;

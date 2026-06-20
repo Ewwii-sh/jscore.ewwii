@@ -22,8 +22,18 @@ impl ModuleLoader for CustomResolver {
         referrer: &str,
         kind: deno_core::ResolutionKind,
     ) -> Result<ModuleSpecifier, ModuleLoaderError> {
-        if specifier == "ewwii/widgets" {
-            return Ok(ModuleSpecifier::parse("embed://ewwii/widgets.js").unwrap());
+        match specifier {
+            "ewwii/widgets" => {
+                return Ok(ModuleSpecifier::parse("embed://ewwii/widgets.js").unwrap());
+            }
+            "ewwii/tools" => {
+                return Ok(ModuleSpecifier::parse("embed://ewwii/tools.js").unwrap());
+            }
+            _ => {}
+        }
+
+        if specifier.starts_with("ext:") {
+            return Ok(ModuleSpecifier::parse(specifier).unwrap());
         }
 
         self.fs_loader.resolve(specifier, referrer, kind)
@@ -36,16 +46,27 @@ impl ModuleLoader for CustomResolver {
         options: deno_core::ModuleLoadOptions,
     ) -> ModuleLoadResponse {
         const WIDGETS_MODULE_SRC: &str = include_str!("bootstrap/widgets.js");
+        const TOOLS_MODULE_SRC: &str = include_str!("bootstrap/tools.js");
 
-        if module_specifier.as_str() == "embed://ewwii/widgets.js" {
-            return ModuleLoadResponse::Sync(Ok(deno_core::ModuleSource::new(
-                ModuleType::JavaScript,
-                ModuleSourceCode::String(WIDGETS_MODULE_SRC.to_string().into()),
-                module_specifier,
-                None,
-            )));
+        match module_specifier.as_str() {
+            "embed://ewwii/widgets.js" => {
+                return register_module(module_specifier, WIDGETS_MODULE_SRC);
+            }
+            "embed://ewwii/tools.js" => {
+                return register_module(module_specifier, TOOLS_MODULE_SRC);
+            }
+            _ => {}
         }
 
         self.fs_loader.load(module_specifier, maybe_referrer, options)
     }
+}
+
+fn register_module(module_specifier: &ModuleSpecifier, module: &str) -> ModuleLoadResponse {
+    return ModuleLoadResponse::Sync(Ok(deno_core::ModuleSource::new(
+        ModuleType::JavaScript,
+        ModuleSourceCode::String(module.to_string().into()),
+        module_specifier,
+        None,
+    )));
 }

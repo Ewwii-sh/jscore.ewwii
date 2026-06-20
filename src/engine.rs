@@ -2,6 +2,7 @@ use ewwii_plugin_api::{EwwiiAPI, IpcRequest, WidgetControlType};
 use deno_core::{op2, OpState, v8, JsRuntime, RuntimeOptions};
 use ewwii_plugin_api::shared_utils::ast::WidgetNode;
 use crate::resolver::CustomResolver;
+use crate::ext::{jscore_timers};
 use std::sync::{Arc, Mutex};
 use std::rc::Rc;
 
@@ -26,11 +27,9 @@ fn op_register_window_json(state: &mut OpState, #[string] json: &str) {
 
 #[op2(fast)]
 fn op_update_widget_property(state: &mut OpState, #[string] widget: String, #[string] name: String, #[string] value: String) {
-    // 1. Snatch a clone of the Arc handle and release the OpState borrow immediately
     if let Some(Some(host)) = state.try_borrow::<Option<Arc<dyn EwwiiAPI>>>() {
         let host = Arc::clone(host);
         
-        // 2. Offload the ipc_request and its FutureResult dropping completely to a separate OS thread
         std::thread::spawn(move || {
             let _ = host.ipc_request(IpcRequest::WidgetControl(WidgetControlType::PropertyUpdate {
                 widget,
@@ -107,7 +106,10 @@ impl Engine {
             let user_js_path = user_js_path_clone;
 
             let mut runtime_opts = RuntimeOptions::default();
-            runtime_opts.extensions = vec![jscore_extension::init()];
+            runtime_opts.extensions = vec![
+                jscore_extension::init(),
+                jscore_timers::init(),
+            ];
             runtime_opts.module_loader = Some(Rc::new(CustomResolver::new()));
             runtime_opts.create_params = Some(
                 v8::Isolate::create_params()
@@ -122,7 +124,8 @@ impl Engine {
             op_state.borrow_mut().put(widget_state_clone.clone());
             op_state.borrow_mut().put(host_clone.clone());
 
-            futures::executor::block_on(async {
+            let rt = tokio::runtime::Runtime::new().unwrap();
+            rt.block_on(async {
                 let module_specifier = deno_core::ModuleSpecifier::parse(&format!("file:///{}", user_js_path)).unwrap();
 
                 let module_id = match runtime.load_side_es_module_from_code(&module_specifier, user_js_code.to_string()).await {

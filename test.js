@@ -1,5 +1,7 @@
 import * as Widgets from "ewwii/widgets";
 
+console.log("Hi");
+
 // Definition
 let myBox = Widgets.Box().properties({
     orientation: "v",

@@ -1,0 +1,13 @@
+[book]
+authors = ["Byson94"]
+language = "en"
+src = "src"
+title = "JSCore Docs"
+
+[output.html]
+default-theme = "latte"
+preferred-dark-theme = "ewwii"
+site-url = "/jscore.ewwii/"
+git-repository-url = "https://github.com/Ewwii-sh/jscore.ewwii/"
+additional-js = ["js/home_button.js"]
+additional-css = ["./theme/catppuccin.css", "./theme/ewwii.css"]

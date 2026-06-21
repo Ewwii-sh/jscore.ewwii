@@ -29,3 +29,36 @@ console.log(json)
 
 The timers like `setInterval`, `setTimeout`, etc. does not exist in `deno_core`. As these are simple functions,
 jscore has them built-in.
+
+**Example:**
+
+`setTimeout` example:
+
+```js 
+// Run a function after 2 seconds (2000ms)
+const timeoutId = setTimeout(() => {
+    console.log("This prints after 2 seconds!");
+}, 2000);
+
+// Cancel the timeout before it can execute
+clearTimeout(timeoutId);
+```
+
+`setInterval` example:
+
+```js
+let counter = 0;
+
+// Run a function every 1 second (1000ms)
+const intervalId = setInterval(() => {
+    counter++;
+    console.log(`Interval tick: ${counter}`);
+
+    // Stop the loop after it runs 3 times
+    if (counter === 3) {
+        console.log("Stopping the interval loop.");
+        clearInterval(intervalId);
+    }
+}, 1000);
+
+```

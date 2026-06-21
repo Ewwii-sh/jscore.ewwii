@@ -133,4 +133,3 @@ globalThis.TextDecoder = TextDecoder;
 // === Reexports === //
 
 globalThis.structuredClone = Deno.core.ops.op_structured_clone;
-globalThis.queueMicrotask = Deno.core.ops.op_queue_microtask;

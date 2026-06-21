@@ -12,7 +12,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 - `TextEncoder` class.
 - `TextDecoder` class.
 - `structuredClone` function.
-- `queueMicrotask` function.
 
 ## [0.9.0.1] - 2026-06-21
 

@@ -81,3 +81,4 @@ export function after_render(api) {
 ```
 
 Do note that all of these runs all at once. Ideally, you'd use `async` combined with other functions to update widgets programmically.
+Jscore also has a `stream` namespace under [Tools](../tools.md) that provides predefined functions to make updating widgets easier.

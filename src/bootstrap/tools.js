@@ -45,4 +45,33 @@ const fs = {
     },
 }
 
-export { cmd, fs }
+const stream = {
+    time(callback, ms = 1000) {
+        if (typeof callback !== "function") {
+            throw new TypeError("drive_time expects a closure function");
+        }
+
+        const intervalId = setInterval(async () => {
+            try {
+                const now = new Date();
+
+                const timeContext = {
+                    date: now,
+                    timestamp: now.getTime(),
+                    string: now.toLocaleTimeString(),
+                    iso: now.toISOString()
+                };
+
+                await callback(timeContext);
+            } catch (err) {
+                console.error("Error occurred inside stream.time worker loop:", err);
+            }
+        }, ms);
+
+        return {
+            stop: () => clearInterval(intervalId)
+        };
+    }
+}
+
+export { cmd, fs, stream }

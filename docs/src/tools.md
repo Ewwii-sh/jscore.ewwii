@@ -6,13 +6,36 @@ Jscore exposes tools to help with you do most of the work from within JavaScript
 import * as Tools from "ewwii/tools";
 ```
 
+## stream
+
+The stream namespace. This contains functions that can stream data to a closure. **Useful alongisde after_render**.
+
+**Methods:**
+
+All the methods are **sync**.
+
+- `time`
+
+**Example:**
+
+```js 
+export function after_render(api) {
+    const myLabel = api.find("cool-text");
+
+    Tools.stream.time((t) => {
+        console.log(`System ticked at: ${t.iso}`);
+        myLabel.set_property("text", t.string);
+    });
+}
+```
+
 ## cmd
 
 The command namespace. This contains all functions related to commands.
 
 **Methods:**
 
-All methods are async.
+All methods are **async**.
 
 - `run(cmd)`
 - `run_read(cmd)`
@@ -32,7 +55,7 @@ The file system namespace. This contains functions that can modify/interact the 
 
 **Methods:**
 
-All methods are async.
+All methods are **async**.
 
 - `read(path)`
 - `write(path, content)`
@@ -83,3 +106,4 @@ console.log(info);
 await Tools.fs.copy(directory, "newdir");
 await Tools.fs.move("newdir", "newdir_moved");
 ```
+

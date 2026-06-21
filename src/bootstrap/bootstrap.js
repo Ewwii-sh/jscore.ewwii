@@ -1,3 +1,26 @@
+// === General === //
+const originalLog = globalThis.console.log;
+
+globalThis.console.log = function (...args) {
+  const processedArgs = args.map((arg) => {
+    if (arg instanceof Promise) {
+      const [status, result] = Deno.core.getPromiseDetails(arg);
+
+      if (status === 0) {
+        return "Promise { <pending> }";
+      } else if (status === 1) {
+        return `Promise { ${typeof result === 'object' ? JSON.stringify(result, null, 2) : result} }`;
+      } else {
+        return `Promise { <rejected> ${result} }`;
+      }
+    }
+
+    return arg;
+  });
+
+  originalLog.apply(globalThis.console, processedArgs);
+};
+
 // === Timers === //
 let timerIdCounter = 1;
 const cancelledTimers = new Set();

@@ -141,7 +141,7 @@ impl Engine {
 
                 let evaluation_result = runtime.mod_evaluate(module_id);
                 if let Err(err) = runtime.run_event_loop(Default::default()).await {
-                    eprintln!("Runtime Event Loop Error: {}", err);
+                    eprintln!("{err}");
                     return;
                 }
 

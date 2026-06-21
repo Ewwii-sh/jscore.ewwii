@@ -6,6 +6,7 @@ mod cmd;
 pub use timer::*;
 pub use fetch::*;
 pub use cmd::*;
+pub use fs::*;
 
 use std::fmt;
 use deno_core::error::CoreError;

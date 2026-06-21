@@ -1,0 +1,6 @@
+[plugin]
+build = "cargo build --release"
+artifact = "target/release/libjscore.so"
+
+[plugin.prebuilt]
+url = "https://github.com/Ewwii-sh/jscore.ewwii/releases/download/{version}/libjscore.so"

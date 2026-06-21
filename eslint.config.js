@@ -1,3 +1,5 @@
+import globals from "globals";
+
 export default [
     {
         languageOptions: {
@@ -5,6 +7,8 @@ export default [
             sourceType: "module",
             globals: {
                 "Deno": "readonly",
+                ...globals.browser,
+                ...globals.node
             },
         },
         rules: {

@@ -1,25 +1,52 @@
 // === General === //
-const originalLog = globalThis.console.log;
+const originalMethods = {
+    log: globalThis.console.log,
+    warn: globalThis.console.warn,
+    error: globalThis.console.error
+};
 
-globalThis.console.log = function (...args) {
-  const processedArgs = args.map((arg) => {
-    if (arg instanceof Promise) {
-      const [status, result] = Deno.core.getPromiseDetails(arg);
-
-      if (status === 0) {
-        return "Promise { <pending> }";
-      } else if (status === 1) {
-        return `Promise { ${typeof result === 'object' ? JSON.stringify(result, null, 2) : result} }`;
-      } else {
-        return `Promise { <rejected> ${result} }`;
-      }
+function cleanInspect(value) {
+    if (value instanceof Error) {
+        return value.stack || value.message;
     }
 
-    return arg;
-  });
+    if (typeof value !== 'object' || value === null) {
+        return value;
+    }
 
-  originalLog.apply(globalThis.console, processedArgs);
-};
+    return JSON.stringify(value, (key, val) => {
+        if (typeof val === 'function') {
+            return `[Function: ${val.name || '(anonymous)'}]`;
+        }
+        return val;
+    }, 2);
+}
+
+for (const method of ['log', 'warn', 'error']) {
+    globalThis.console[method] = function (...args) {
+        const processedArgs = args.map((arg) => {
+            if (arg instanceof Promise) {
+                const [status, result] = Deno.core.getPromiseDetails(arg);
+
+                if (status === 0) {
+                    return "Promise { <pending> }";
+                } else if (status === 1) {
+                    return `Promise { ${cleanInspect(result)} }`;
+                } else {
+                    return `Promise { <rejected> ${result} }`;
+                }
+            }
+
+            if (typeof arg === 'object' && arg !== null) {
+                return cleanInspect(arg);
+            }
+
+            return arg;
+        });
+
+        originalMethods[method].apply(globalThis.console, processedArgs);
+    };
+}
 
 // === Timers === //
 let timerIdCounter = 1;

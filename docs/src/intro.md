@@ -10,5 +10,6 @@ on external scripts.
 
 ## Features
 
+- **npm support**: Semi-npm support with esbuild
 - **v8 engine backend:** Blazingly fast evaluation
 - **self-sufficient:** No need for external scripts

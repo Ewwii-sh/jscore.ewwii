@@ -6,7 +6,7 @@ Ewwii plugin providing JavaScript language support in a unique way.
 
 You can use the following command to install jscore using [eiipm](https://github.com/ewwii-sh/eiipm).
 
-```
+```sh
 # if you prefer prebuilt
 eiipm add "Ewwii-sh/jscore.ewwii" --prebuilt --ref <version>
 

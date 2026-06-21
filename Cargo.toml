@@ -14,3 +14,9 @@ serde_json = "1.0.150"
 tokio = { version = "1.52.3", features = ["time", "sync", "rt", "rt-multi-thread", "fs"] }
 reqwest = { version = "0.13.4", default-features = false, features = ["rustls", "json"] }
 anyhow = "1.0.102"
+
+[profile.release]
+opt-level = "z"
+lto = true
+codegen-units = 1
+strip = "symbols"

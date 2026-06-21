@@ -1,10 +1,10 @@
 use deno_core::error::ModuleLoaderError;
 use deno_core::{
-    FsModuleLoader, ModuleLoader, ModuleLoadResponse, ModuleSpecifier, ModuleSourceCode, ModuleType,
+    FsModuleLoader, ModuleLoadResponse, ModuleLoader, ModuleSourceCode, ModuleSpecifier, ModuleType,
 };
 use std::hash::{DefaultHasher, Hash, Hasher};
-use std::process::Command;
 use std::path::PathBuf;
+use std::process::Command;
 
 pub struct CustomResolver {
     fs_loader: FsModuleLoader,
@@ -13,10 +13,7 @@ pub struct CustomResolver {
 
 impl CustomResolver {
     pub fn new() -> Self {
-        Self {
-            fs_loader: FsModuleLoader,
-            script_dir: std::env::current_dir().ok()
-        }
+        Self { fs_loader: FsModuleLoader, script_dir: std::env::current_dir().ok() }
     }
 }
 
@@ -49,7 +46,8 @@ impl ModuleLoader for CustomResolver {
                 return Err(ModuleLoaderError::generic("esbuild must be installed and in $PATH"));
             }
 
-            let library = specifier.strip_prefix("esbuild:")
+            let library = specifier
+                .strip_prefix("esbuild:")
                 .ok_or(ModuleLoaderError::generic("failed to extract library name"))?;
             let cache = cache_path(&self.script_dir, library);
 
@@ -64,11 +62,13 @@ impl ModuleLoader for CustomResolver {
                     .map_err(|e| ModuleLoaderError::generic(format!("esbuild failed: {e}")))?;
             }
 
-            let cache_full = cache.canonicalize()
-                .map_err(|e| ModuleLoaderError::generic(format!("failed to canonicalize path: {e}")))?;
+            let cache_full = cache.canonicalize().map_err(|e| {
+                ModuleLoaderError::generic(format!("failed to canonicalize path: {e}"))
+            })?;
 
-            return ModuleSpecifier::from_file_path(cache_full)
-                .map_err(|_| ModuleLoaderError::generic("failed to convert cache path to file URL"));
+            return ModuleSpecifier::from_file_path(cache_full).map_err(|_| {
+                ModuleLoaderError::generic("failed to convert cache path to file URL")
+            });
         }
 
         self.fs_loader.resolve(specifier, referrer, kind)
@@ -112,7 +112,5 @@ fn cache_path(script_dir: &Option<PathBuf>, package: &str) -> std::path::PathBuf
     let hash = hasher.finish();
     let temp = std::env::temp_dir();
     let base = script_dir.as_deref().unwrap_or(&temp);
-    base.join(".cache")
-        .join("jscore")
-        .join(format!("{:x}.js", hash))
+    base.join(".cache").join("jscore").join(format!("{:x}.js", hash))
 }

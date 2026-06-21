@@ -1,10 +1,10 @@
-use ewwii_plugin_api::{EwwiiAPI, IpcRequest, WidgetControlType};
-use deno_core::{op2, OpState, v8, JsRuntime, RuntimeOptions};
-use ewwii_plugin_api::shared_utils::ast::WidgetNode;
+use crate::ext::{jscore_cmd, jscore_fetch, jscore_fs, jscore_timers};
 use crate::resolver::CustomResolver;
-use crate::ext::{jscore_timers, jscore_fetch, jscore_cmd, jscore_fs};
-use std::sync::{Arc, Mutex};
+use deno_core::{JsRuntime, OpState, RuntimeOptions, op2, v8};
+use ewwii_plugin_api::shared_utils::ast::WidgetNode;
+use ewwii_plugin_api::{EwwiiAPI, IpcRequest, WidgetControlType};
 use std::rc::Rc;
+use std::sync::{Arc, Mutex};
 
 #[op2(fast)]
 fn op_register_window_json(state: &mut OpState, #[string] json: &str) {
@@ -22,20 +22,26 @@ fn op_register_window_json(state: &mut OpState, #[string] json: &str) {
                 return;
             }
         }
-    } 
+    }
 }
 
 #[op2(fast)]
-fn op_update_widget_property(state: &mut OpState, #[string] widget: String, #[string] name: String, #[string] value: String) {
+fn op_update_widget_property(
+    state: &mut OpState,
+    #[string] widget: String,
+    #[string] name: String,
+    #[string] value: String,
+) {
     if let Some(Some(host)) = state.try_borrow::<Option<Arc<dyn EwwiiAPI>>>() {
         let host = Arc::clone(host);
-        
+
         std::thread::spawn(move || {
-            let _ = host.ipc_request(IpcRequest::WidgetControl(WidgetControlType::PropertyUpdate {
-                widget,
-                prop: name,
-                value,
-            }));
+            let _ =
+                host.ipc_request(IpcRequest::WidgetControl(WidgetControlType::PropertyUpdate {
+                    widget,
+                    prop: name,
+                    value,
+                }));
         });
     }
 }
@@ -44,7 +50,7 @@ fn op_update_widget_property(state: &mut OpState, #[string] widget: String, #[st
 fn op_widget_add_class(state: &mut OpState, #[string] widget: String, #[string] class: String) {
     if let Some(Some(host)) = state.try_borrow::<Option<Arc<dyn EwwiiAPI>>>() {
         let host = Arc::clone(host);
-        
+
         std::thread::spawn(move || {
             let _ = host.ipc_request(IpcRequest::WidgetControl(WidgetControlType::AddClass {
                 widget,
@@ -58,19 +64,24 @@ fn op_widget_add_class(state: &mut OpState, #[string] widget: String, #[string] 
 fn op_widget_remove_class(state: &mut OpState, #[string] widget: String, #[string] class: String) {
     if let Some(Some(host)) = state.try_borrow::<Option<Arc<dyn EwwiiAPI>>>() {
         let host = Arc::clone(host);
-        
+
         std::thread::spawn(move || {
             let _ = host.ipc_request(IpcRequest::WidgetControl(WidgetControlType::RemoveClass {
                 widget,
                 class,
-            }));       
+            }));
         });
     }
 }
 
 deno_core::extension!(
     jscore_extension,
-    ops = [op_register_window_json, op_update_widget_property, op_widget_add_class, op_widget_remove_class]
+    ops = [
+        op_register_window_json,
+        op_update_widget_property,
+        op_widget_add_class,
+        op_widget_remove_class
+    ]
 );
 
 pub static BOOTSTRAP_JS: &str = include_str!("bootstrap/bootstrap.js");
@@ -83,10 +94,7 @@ pub struct Engine {
 
 impl Engine {
     pub fn new() -> Self {
-        Self {
-            widget_state: Arc::new(Mutex::new(WidgetNode::Tree(vec![]))),
-            host: None,
-        }
+        Self { widget_state: Arc::new(Mutex::new(WidgetNode::Tree(vec![]))), host: None }
     }
 
     pub fn set_host(&mut self, host: Arc<dyn EwwiiAPI>) {
@@ -100,7 +108,7 @@ impl Engine {
         let host_clone = self.host.clone();
 
         let (ready_tx, ready_rx) = std::sync::mpsc::channel::<()>();
-        
+
         std::thread::spawn(move || {
             let user_js_code = user_js_code_clone;
             let user_js_path = user_js_path_clone;
@@ -114,10 +122,8 @@ impl Engine {
                 jscore_fs::init(),
             ];
             runtime_opts.module_loader = Some(Rc::new(CustomResolver::new()));
-            runtime_opts.create_params = Some(
-                v8::Isolate::create_params()
-                    .heap_limits(0, 128 * 1024 * 1024)
-            );
+            runtime_opts.create_params =
+                Some(v8::Isolate::create_params().heap_limits(0, 128 * 1024 * 1024));
 
             let mut runtime = JsRuntime::new(runtime_opts);
             runtime.execute_script("__bootstrap.js", BOOTSTRAP_JS).unwrap();
@@ -167,7 +173,8 @@ impl Engine {
 }
 
 async fn trigger_after_render_lifecycle(runtime: &mut JsRuntime, module_id: deno_core::ModuleId) {
-    let module_namespace = runtime.get_module_namespace(module_id).expect("Failed to get module namespace");
+    let module_namespace =
+        runtime.get_module_namespace(module_id).expect("Failed to get module namespace");
     let global_ctx = runtime.main_context();
     let isolate = runtime.v8_isolate();
 
@@ -194,14 +201,16 @@ async fn trigger_after_render_lifecycle(runtime: &mut JsRuntime, module_id: deno
         } else {
             None
         }
-    }; 
+    };
 
     if let Some((global_function, global_api_instance)) = global_handles {
         let call_future = runtime.call_with_args(&global_function, &[global_api_instance]);
-        
+
         match call_future.await {
             Ok(_) => {}
-            Err(err) => eprintln!("Runtime Error occurred during after_render script execution: {}", err),
+            Err(err) => {
+                eprintln!("Runtime Error occurred during after_render script execution: {}", err)
+            }
         }
     }
 }

@@ -1,11 +1,11 @@
-mod resolver;
-mod engine;
 mod convert;
+mod engine;
 mod ext;
+mod resolver;
 
-use std::path::PathBuf;
 use std::env;
 use std::fs;
+use std::path::PathBuf;
 
 fn main() {
     let args: Vec<String> = env::args().collect();
@@ -29,7 +29,7 @@ fn main() {
     let absolute_path = fs::canonicalize(&path).unwrap();
     let engine = engine::Engine::new();
     engine.start_engine(&user_js_code, &absolute_path.to_string_lossy());
-    
+
     let wnode = engine.get_widgetnode();
     if let Ok(i) = wnode.lock() {
         println!("WidgetNode: {:#?}", i);

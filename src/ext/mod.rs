@@ -1,15 +1,15 @@
-mod timer;
+mod cmd;
 mod fetch;
 mod fs;
-mod cmd;
+mod timer;
 
-pub use timer::*;
-pub use fetch::*;
 pub use cmd::*;
+pub use fetch::*;
 pub use fs::*;
+pub use timer::*;
 
-use std::fmt;
 use deno_core::error::CoreError;
+use std::fmt;
 
 #[derive(Debug)]
 pub struct DenoOpError(pub CoreError);
@@ -28,18 +28,14 @@ impl From<DenoOpError> for CoreError {
 
 impl DenoOpError {
     pub fn msg(message: impl Into<std::borrow::Cow<'static, str>>) -> Self {
-        let io_err = std::io::Error::new(
-            std::io::ErrorKind::Other, 
-            message.into().into_owned()
-        );
-        
+        let io_err = std::io::Error::new(std::io::ErrorKind::Other, message.into().into_owned());
+
         DenoOpError(CoreError(Box::new(deno_core::error::CoreErrorKind::Io(io_err))))
     }
 
     pub fn map<E: std::error::Error + Send + Sync + 'static>(err: E) -> Self {
         let io_err = std::io::Error::new(std::io::ErrorKind::Other, err);
-        
+
         DenoOpError(CoreError(Box::new(deno_core::error::CoreErrorKind::Io(io_err))))
     }
 }
-

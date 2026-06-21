@@ -1,7 +1,7 @@
-use serde::Serialize;
-use deno_core::op2;
 use super::DenoOpError;
 use deno_core::error::CoreError;
+use deno_core::op2;
+use serde::Serialize;
 
 #[derive(Serialize)]
 struct FetchResponse {
@@ -18,8 +18,7 @@ async fn op_fetch(
     #[serde] headers: Vec<(String, String)>,
     #[string] body: Option<String>,
 ) -> Result<String, CoreError> {
-    let method = reqwest::Method::from_bytes(method.as_bytes())
-        .map_err(|e| DenoOpError::map(e))?;
+    let method = reqwest::Method::from_bytes(method.as_bytes()).map_err(|e| DenoOpError::map(e))?;
 
     let client = reqwest::Client::new();
     let mut req = client.request(method, url);
@@ -31,25 +30,14 @@ async fn op_fetch(
         req = req.body(body);
     }
 
-    let res = req.send().await
-        .map_err(|e| DenoOpError::map(e))?;
+    let res = req.send().await.map_err(|e| DenoOpError::map(e))?;
 
     let status = res.status();
-    let body_text = res.text().await
-        .map_err(|e| DenoOpError::map(e))?;
+    let body_text = res.text().await.map_err(|e| DenoOpError::map(e))?;
 
-    let fres = FetchResponse {
-        status: status.as_u16(),
-        ok: status.is_success(),
-        body: body_text,
-    };
+    let fres = FetchResponse { status: status.as_u16(), ok: status.is_success(), body: body_text };
 
-    serde_json::to_string(&fres)
-        .map_err(|e| DenoOpError::map(e).0)
+    serde_json::to_string(&fres).map_err(|e| DenoOpError::map(e).0)
 }
 
-deno_core::extension!(
-    jscore_fetch,
-    ops = [op_fetch]
-);
-
+deno_core::extension!(jscore_fetch, ops = [op_fetch]);

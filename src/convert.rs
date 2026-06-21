@@ -1,6 +1,6 @@
-use ewwii_plugin_api::shared_utils::prop::{PropertyMap, Property};
 use ewwii_plugin_api::shared_utils::ast::WidgetNode;
-use serde::{Serialize, Deserialize};
+use ewwii_plugin_api::shared_utils::prop::{Property, PropertyMap};
+use serde::{Deserialize, Serialize};
 use serde_json::{Map, Value};
 
 #[derive(Serialize, Deserialize)]
@@ -9,14 +9,12 @@ pub struct WidgetData {
     widget_type: String,
     props: Map<String, Value>,
     #[serde(default)]
-    children: Vec<WidgetData>
+    children: Vec<WidgetData>,
 }
 
 pub fn convert_to_widgetnode(json_str: &str) -> Option<WidgetNode> {
     match serde_json::from_str::<WidgetData>(json_str) {
-        Ok(widget_tree) => {
-            Some(to_node(widget_tree))
-        }
+        Ok(widget_tree) => Some(to_node(widget_tree)),
         Err(e) => {
             eprintln!("Failed to parse widget JSON framework layout: {}", e);
             None
@@ -57,7 +55,7 @@ fn to_node(data: WidgetData) -> WidgetNode {
         "ToolTip" => WidgetNode::ToolTip { props, children: children() },
         "GtkUI" => WidgetNode::GtkUI { props },
         "Script" => WidgetNode::Script { props },
-        
+
         "Window" => {
             let name = match props.get("name").expect("Name is required for a window.") {
                 Property::String(s) => s.to_string(),
@@ -66,13 +64,12 @@ fn to_node(data: WidgetData) -> WidgetNode {
                     String::from("__default_name")
                 }
             };
-            let first_child = children().into_iter().next().unwrap_or(WidgetNode::Label { props: PropertyMap::default() });
-            WidgetNode::DefWindow {
-                name,
-                props,
-                node: Box::new(first_child),
-            }
-        },
+            let first_child = children()
+                .into_iter()
+                .next()
+                .unwrap_or(WidgetNode::Label { props: PropertyMap::default() });
+            WidgetNode::DefWindow { name, props, node: Box::new(first_child) }
+        }
         "Poll" => {
             let var = match props.get("var").expect("Name is required for a poll.") {
                 Property::String(s) => s.to_string(),
@@ -82,7 +79,7 @@ fn to_node(data: WidgetData) -> WidgetNode {
                 }
             };
             WidgetNode::Poll { var, props }
-        },
+        }
         "Listen" => {
             let var = match props.get("var").expect("Name is required for a listen.") {
                 Property::String(s) => s.to_string(),
@@ -92,10 +89,13 @@ fn to_node(data: WidgetData) -> WidgetNode {
                 }
             };
             WidgetNode::Listen { var, props }
-        },
-        
+        }
+
         _ => {
-            eprintln!("Warning: Unrecognized widget type '{}', defaulting to Label", data.widget_type);
+            eprintln!(
+                "Warning: Unrecognized widget type '{}', defaulting to Label",
+                data.widget_type
+            );
             WidgetNode::Label { props }
         }
     }

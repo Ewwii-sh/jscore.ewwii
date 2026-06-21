@@ -10,6 +10,5 @@ on external scripts.
 
 ## Features
 
-- **npm compatibility:** Wide range of package support
-- **v8 engine backend:** Blazing fast evaluation
+- **v8 engine backend:** Blazingly fast evaluation
 - **self-sufficient:** No need for external scripts

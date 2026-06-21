@@ -2,7 +2,7 @@ use ewwii_plugin_api::{EwwiiAPI, IpcRequest, WidgetControlType};
 use deno_core::{op2, OpState, v8, JsRuntime, RuntimeOptions};
 use ewwii_plugin_api::shared_utils::ast::WidgetNode;
 use crate::resolver::CustomResolver;
-use crate::ext::{jscore_timers};
+use crate::ext::{jscore_timers, jscore_fetch};
 use std::sync::{Arc, Mutex};
 use std::rc::Rc;
 
@@ -109,6 +109,7 @@ impl Engine {
             runtime_opts.extensions = vec![
                 jscore_extension::init(),
                 jscore_timers::init(),
+                jscore_fetch::init(),
             ];
             runtime_opts.module_loader = Some(Rc::new(CustomResolver::new()));
             runtime_opts.create_params = Some(
@@ -186,7 +187,6 @@ async fn trigger_after_render_lifecycle(runtime: &mut JsRuntime, module_id: deno
                     v8::Global::new(&mut *scope, api_instance),
                 ))
             } else {
-                println!("Lifecycle Warning: 'after_render' export is missing or not a function. Skipping execution.");
                 None
             }
         } else {

@@ -6,3 +6,4 @@
     - [Basics](./config/basics.md)
     - [Widget Properties](./config/supported_widgets.md)
     - [Driving Widgets](./config/after_render.md)
+- [Builtins](./builtins.md)

@@ -36,3 +36,24 @@ globalThis.setInterval = (cb, delay, ...args) => {
 };
 
 globalThis.clearInterval = globalThis.clearTimeout;
+
+// === Fetch === //
+globalThis.fetch = async (url, options = {}) => {
+    const headers = options.headers ?? {};
+    if (!headers["User-Agent"] && !headers["user-agent"]) {
+        headers["User-Agent"] = "Mozilla/5.0";
+    }
+    const raw = await Deno.core.ops.op_fetch(
+        url,
+        options.method ?? "GET",
+        Object.entries(headers),
+        options.body ?? null
+    );
+    const res = JSON.parse(raw);
+    return {
+        status: res.status,
+        ok: res.ok,
+        text: () => Promise.resolve(res.body),
+        json: () => Promise.resolve(JSON.parse(res.body)),
+    };
+};

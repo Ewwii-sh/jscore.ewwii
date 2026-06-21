@@ -30,3 +30,7 @@ console.log(lodash.sum(arr));
 The packages that are bundled by esbuild are stored in the `.cache/jscore` directory to avoid bundling every time
 ewwii reloads jscore, which happens very frequently. Once in a while, its a good idea to clear the cache directory
 and let jscore repopulate it.
+
+Packages that use node exclusive features like `node:fs` cannot be loaded by jscore. Although this limitation
+can be solved either by stubbing or redirecting to a simpler API, we decided keep it this way because
+no one will really needs node exclusive packages to build simple widgets.

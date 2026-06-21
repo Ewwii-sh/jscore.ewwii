@@ -600,17 +600,21 @@ remove_classes([string]);
 <h2 id="cmd"><a class="header" href="#cmd">cmd</a></h2>
 <p>The command namespace. This contains all functions related to commands.</p>
 <p><strong>Methods:</strong></p>
+<p>All methods are async.</p>
 <ul>
 <li><code>run(cmd)</code></li>
 <li><code>run_read(cmd)</code></li>
 </ul>
 <p><strong>Example:</strong></p>
-<pre><code class="language-js">Tools.cmd.run("notify-send Hi");
-const output = Tools.cmd.run_read("echo Hi");
+<pre><code class="language-js">await Tools.cmd.run("notify-send Hi");
+
+const output = await Tools.cmd.run_read("echo Hi");
+console.log(output); // "Hi"
 </code></pre>
 <h2 id="fs"><a class="header" href="#fs">fs</a></h2>
 <p>The file system namespace. This contains functions that can modify/interact the file system.</p>
 <p><strong>Methods:</strong></p>
+<p>All methods are async.</p>
 <ul>
 <li><code>read(path)</code></li>
 <li><code>write(path, content)</code></li>
@@ -627,16 +631,16 @@ const output = Tools.cmd.run_read("echo Hi");
 <pre><code class="language-js">const path = "./example.js";
 
 // Read to a variable
-const contents_now = Tools.fs.read(path);
+const contents_now = await Tools.fs.read(path);
 
 // Replace contents with "Hello, World!"
-Tools.fs.write(path, "Hello, World!");
+await Tools.fs.write(path, "Hello, World!");
 
 // Add previous content back below "Hello, World!"
-Tools.fs.append(path, contents_now);
+await Tools.fs.append(path, contents_now);
 
 // Now delete the file
-Tools.fs.remove(path);
+await Tools.fs.remove(path);
 
 // Check if it exists
 if (Tools.fs.exists(path)) {
@@ -646,17 +650,18 @@ if (Tools.fs.exists(path)) {
 
 // Make a directory
 const directory = "mydir";
-Tools.fs.mkdir(directory);
+await Tools.fs.mkdir(directory);
 
 // read all files (will be empty)
-const files = Tools.fs.readdir(directory);
+const files = await Tools.fs.readdir(directory);
 
 // get info about the dir 
-const info = Tools.fs.stat(directory);
+const info = await Tools.fs.stat(directory);
+console.log(info);
 
 // copy/move a dir/file 
-Tools.fs.copy(directory, "newdir");
-Tools.fs.move("newdir", "newdir_moved");
+await Tools.fs.copy(directory, "newdir");
+await Tools.fs.move("newdir", "newdir_moved");
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="builtins"><a class="header" href="#builtins">Builtins</a></h1>
 <p>Jscore is built on top of <code>deno_core</code>, which is a very minimal JavaScript evaluation engine which does not support

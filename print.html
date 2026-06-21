@@ -195,8 +195,7 @@ can be done directly from the comfort of your javascript file without having to 
 on external scripts.</p>
 <h2 id="features"><a class="header" href="#features">Features</a></h2>
 <ul>
-<li><strong>npm compatibility:</strong> Wide range of package support</li>
-<li><strong>v8 engine backend:</strong> Blazing fast evaluation</li>
+<li><strong>v8 engine backend:</strong> Blazingly fast evaluation</li>
 <li><strong>self-sufficient:</strong> No need for external scripts</li>
 </ul>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="installation"><a class="header" href="#installation">Installation</a></h1>
@@ -593,6 +592,23 @@ remove_classes([string]);
 }
 </code></pre>
 <p>Do note that all of these runs all at once. Ideally, you'd use <code>async</code> combined with other functions to update widgets programmically.</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="builtins"><a class="header" href="#builtins">Builtins</a></h1>
+<p>Jscore is built on top of <code>deno_core</code>, which is a very minimal JavaScript evaluation engine which does not support
+things like timers, web, and more. To combat this, instead of using <code>deno_runtime</code>, which would make the binary size
+huge and increase the compile time by a lot, jscore implements most of these by itself instead.</p>
+<h2 id="fetchurl-method-headers-body"><a class="header" href="#fetchurl-method-headers-body"><code>fetch(url, {method, headers, body})</code></a></h2>
+<p><strong>Supports:</strong></p>
+<ul>
+<li><code>ok</code></li>
+<li><code>status</code></li>
+<li><code>text()</code></li>
+<li><code>json()</code></li>
+</ul>
+<p>This is the simple fetch implementation of jscore. It is built for simple use cases and not for downloading large files as such.
+Simple actions like calling API's and extracting JSON will work seaminglessly.</p>
+<h2 id="timers"><a class="header" href="#timers">Timers</a></h2>
+<p>The timers like <code>setInterval</code>, <code>setTimeout</code>, etc. does not exist in <code>deno_core</code>. As these are simple functions,
+jscore has them built-in.</p>
 
                     </main>
 

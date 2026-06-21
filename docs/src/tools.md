@@ -12,14 +12,18 @@ The command namespace. This contains all functions related to commands.
 
 **Methods:**
 
+All methods are async.
+
 - `run(cmd)`
 - `run_read(cmd)`
 
 **Example:**
 
 ```js 
-Tools.cmd.run("notify-send Hi");
-const output = Tools.cmd.run_read("echo Hi");
+await Tools.cmd.run("notify-send Hi");
+
+const output = await Tools.cmd.run_read("echo Hi");
+console.log(output); // "Hi"
 ```
 
 ## fs 
@@ -27,6 +31,8 @@ const output = Tools.cmd.run_read("echo Hi");
 The file system namespace. This contains functions that can modify/interact the file system.
 
 **Methods:**
+
+All methods are async.
 
 - `read(path)`
 - `write(path, content)`
@@ -45,16 +51,16 @@ The file system namespace. This contains functions that can modify/interact the 
 const path = "./example.js";
 
 // Read to a variable
-const contents_now = Tools.fs.read(path);
+const contents_now = await Tools.fs.read(path);
 
 // Replace contents with "Hello, World!"
-Tools.fs.write(path, "Hello, World!");
+await Tools.fs.write(path, "Hello, World!");
 
 // Add previous content back below "Hello, World!"
-Tools.fs.append(path, contents_now);
+await Tools.fs.append(path, contents_now);
 
 // Now delete the file
-Tools.fs.remove(path);
+await Tools.fs.remove(path);
 
 // Check if it exists
 if (Tools.fs.exists(path)) {
@@ -64,15 +70,16 @@ if (Tools.fs.exists(path)) {
 
 // Make a directory
 const directory = "mydir";
-Tools.fs.mkdir(directory);
+await Tools.fs.mkdir(directory);
 
 // read all files (will be empty)
-const files = Tools.fs.readdir(directory);
+const files = await Tools.fs.readdir(directory);
 
 // get info about the dir 
-const info = Tools.fs.stat(directory);
+const info = await Tools.fs.stat(directory);
+console.log(info);
 
 // copy/move a dir/file 
-Tools.fs.copy(directory, "newdir");
-Tools.fs.move("newdir", "newdir_moved");
+await Tools.fs.copy(directory, "newdir");
+await Tools.fs.move("newdir", "newdir_moved");
 ```

@@ -706,6 +706,32 @@ console.log(json)
 <h2 id="timers"><a class="header" href="#timers">Timers</a></h2>
 <p>The timers like <code>setInterval</code>, <code>setTimeout</code>, etc. does not exist in <code>deno_core</code>. As these are simple functions,
 jscore has them built-in.</p>
+<p><strong>Example:</strong></p>
+<p><code>setTimeout</code> example:</p>
+<pre><code class="language-js">// Run a function after 2 seconds (2000ms)
+const timeoutId = setTimeout(() =&gt; {
+    console.log("This prints after 2 seconds!");
+}, 2000);
+
+// Cancel the timeout before it can execute
+clearTimeout(timeoutId);
+</code></pre>
+<p><code>setInterval</code> example:</p>
+<pre><code class="language-js">let counter = 0;
+
+// Run a function every 1 second (1000ms)
+const intervalId = setInterval(() =&gt; {
+    counter++;
+    console.log(`Interval tick: ${counter}`);
+
+    // Stop the loop after it runs 3 times
+    if (counter === 3) {
+        console.log("Stopping the interval loop.");
+        clearInterval(intervalId);
+    }
+}, 1000);
+
+</code></pre>
 
                     </main>
 

@@ -189,10 +189,27 @@
 <p>Jscore exposes tools to help with you do most of the work from within JavaScript itself. You can imports the tools like so:</p>
 <pre><code class="language-js">import * as Tools from "ewwii/tools";
 </code></pre>
+<h2 id="stream"><a class="header" href="#stream">stream</a></h2>
+<p>The stream namespace. This contains functions that can stream data to a closure. <strong>Useful alongisde after_render</strong>.</p>
+<p><strong>Methods:</strong></p>
+<p>All the methods are <strong>sync</strong>.</p>
+<ul>
+<li><code>time</code></li>
+</ul>
+<p><strong>Example:</strong></p>
+<pre><code class="language-js">export function after_render(api) {
+    const myLabel = api.find("cool-text");
+
+    Tools.stream.time((t) =&gt; {
+        console.log(`System ticked at: ${t.iso}`);
+        myLabel.set_property("text", t.string);
+    });
+}
+</code></pre>
 <h2 id="cmd"><a class="header" href="#cmd">cmd</a></h2>
 <p>The command namespace. This contains all functions related to commands.</p>
 <p><strong>Methods:</strong></p>
-<p>All methods are async.</p>
+<p>All methods are <strong>async</strong>.</p>
 <ul>
 <li><code>run(cmd)</code></li>
 <li><code>run_read(cmd)</code></li>
@@ -206,7 +223,7 @@ console.log(output); // "Hi"
 <h2 id="fs"><a class="header" href="#fs">fs</a></h2>
 <p>The file system namespace. This contains functions that can modify/interact the file system.</p>
 <p><strong>Methods:</strong></p>
-<p>All methods are async.</p>
+<p>All methods are <strong>async</strong>.</p>
 <ul>
 <li><code>read(path)</code></li>
 <li><code>write(path, content)</code></li>

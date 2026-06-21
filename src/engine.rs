@@ -6,6 +6,8 @@ use ewwii_plugin_api::{EwwiiAPI, IpcRequest, WidgetControlType};
 use std::rc::Rc;
 use std::sync::{Arc, Mutex};
 
+static ENGINE_CANCEL: Mutex<Option<tokio::sync::oneshot::Sender<()>>> = Mutex::new(None);
+
 #[op2(fast)]
 fn op_register_window_json(state: &mut OpState, #[string] json: &str) {
     if let Some(widget_state_arc) = state.try_borrow_mut::<Arc<Mutex<WidgetNode>>>() {
@@ -109,6 +111,13 @@ impl Engine {
 
         let (ready_tx, ready_rx) = std::sync::mpsc::channel::<()>();
 
+        if let Some(thread_tx) = ENGINE_CANCEL.lock().unwrap().take() {
+            let _ = thread_tx.send(());
+        }
+
+        let (thread_tx, thread_rx) = tokio::sync::oneshot::channel::<()>();
+        *ENGINE_CANCEL.lock().unwrap() = Some(thread_tx);
+
         std::thread::spawn(move || {
             let user_js_code = user_js_code_clone;
             let user_js_path = user_js_path_clone;
@@ -160,7 +169,11 @@ impl Engine {
 
                 // maybe wait for windows to be initialized?
                 trigger_after_render_lifecycle(&mut runtime, module_id).await;
-                let _ = runtime.run_event_loop(Default::default()).await;
+
+                tokio::select! {
+                    _ = runtime.run_event_loop(Default::default()) => {}
+                    _ = thread_rx => { return; }
+                }
             });
         });
 

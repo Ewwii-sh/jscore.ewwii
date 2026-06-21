@@ -40,6 +40,8 @@ impl ModuleLoader for CustomResolver {
         if specifier.starts_with("esbuild:") {
             let installed = Command::new("which")
                 .arg("esbuild")
+                .stdout(std::process::Stdio::null())
+                .stderr(std::process::Stdio::null())
                 .status()
                 .map_err(|e| ModuleLoaderError::generic(format!("which command failed: {e}")))?;
 

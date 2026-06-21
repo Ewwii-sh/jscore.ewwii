@@ -21,6 +21,10 @@ console.log(lodash.chunk(arr, 2));
 console.log(lodash.sum(arr));
 ```
 
+> **Note:**
+> 
+> Make sure that [esbuild](https://esbuild.github.io/) is installed before using this feature.
+
 ## Technical Details
 
 The packages that are bundled by esbuild are stored in the `.cache/jscore` directory to avoid bundling every time

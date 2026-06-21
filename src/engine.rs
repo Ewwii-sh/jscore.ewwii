@@ -87,7 +87,7 @@ deno_core::extension!(
 );
 
 pub static BOOTSTRAP_JS: &str = include_str!("bootstrap/bootstrap.js");
-pub static RUNTIME_JS: &str = include_str!("bootstrap/runtime.js");
+pub static AFTER_RENDER_JS: &str = include_str!("bootstrap/after_render.js");
 
 pub struct Engine {
     widget_state: Arc<Mutex<WidgetNode>>,
@@ -136,7 +136,7 @@ impl Engine {
 
             let mut runtime = JsRuntime::new(runtime_opts);
             runtime.execute_script("__bootstrap.js", BOOTSTRAP_JS).unwrap();
-            runtime.execute_script("__runtime.js", RUNTIME_JS).unwrap();
+            runtime.execute_script("__runtime.js", AFTER_RENDER_JS).unwrap();
 
             let op_state = runtime.op_state();
             op_state.borrow_mut().put(widget_state_clone.clone());

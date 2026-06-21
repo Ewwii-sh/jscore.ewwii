@@ -2,7 +2,7 @@ use ewwii_plugin_api::{EwwiiAPI, IpcRequest, WidgetControlType};
 use deno_core::{op2, OpState, v8, JsRuntime, RuntimeOptions};
 use ewwii_plugin_api::shared_utils::ast::WidgetNode;
 use crate::resolver::CustomResolver;
-use crate::ext::{jscore_timers, jscore_fetch};
+use crate::ext::{jscore_timers, jscore_fetch, jscore_cmd};
 use std::sync::{Arc, Mutex};
 use std::rc::Rc;
 
@@ -110,6 +110,7 @@ impl Engine {
                 jscore_extension::init(),
                 jscore_timers::init(),
                 jscore_fetch::init(),
+                jscore_cmd::init(),
             ];
             runtime_opts.module_loader = Some(Rc::new(CustomResolver::new()));
             runtime_opts.create_params = Some(

@@ -197,7 +197,7 @@ can be done directly from the comfort of your javascript file without having to 
 on external scripts.</p>
 <h2 id="features"><a class="header" href="#features">Features</a></h2>
 <ul>
-<li><strong>npm support</strong>: Semi-npm support with esbuild</li>
+<li><strong>npm support</strong>: Wide range of packages from JS ecosystem</li>
 <li><strong>v8 engine backend:</strong> Blazingly fast evaluation</li>
 <li><strong>self-sufficient:</strong> No need for external scripts</li>
 </ul>
@@ -732,6 +732,26 @@ const intervalId = setInterval(() =&gt; {
 }, 1000);
 
 </code></pre>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="npm"><a class="header" href="#npm">Npm</a></h1>
+<p>Jscore can work seaminglessly with packages from <code>node_modules/</code> with the help of <a href="https://esbuild.github.io/">esbuild</a>.
+This feature not exclusive to <code>npm</code>. It works perfectly fine with <code>pnpm</code> or <code>yarn</code> because all of them use the same <code>node_modules/</code>
+directory.</p>
+<p>Directly trying to use a package similar to how you would in node wouldn't work in jscore.
+To use a package in jscore, you <strong>need to prefix</strong> <code>esbuild:</code> to the name of the package.
+This tells jscore to use esbuild to quickly convert the package into a standalone JavaScript
+file which it can easily load.</p>
+<p><strong>Example:</strong></p>
+<p>Here is an example on how to use lodash.</p>
+<pre><code class="language-js">import lodash from 'esbuild:lodash';
+
+const arr = [1, 2, 3, 4, 5];
+console.log(lodash.chunk(arr, 2));
+console.log(lodash.sum(arr));
+</code></pre>
+<h2 id="technical-details"><a class="header" href="#technical-details">Technical Details</a></h2>
+<p>The packages that are bundled by esbuild are stored in the <code>.cache/jscore</code> directory to avoid bundling every time
+ewwii reloads jscore, which happens very frequently. Once in a while, its a good idea to clear the cache directory
+and let jscore repopulate it.</p>
 
                     </main>
 

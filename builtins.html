@@ -199,6 +199,12 @@ huge and increase the compile time by a lot, jscore implements most of these by 
 </ul>
 <p>This is the simple fetch implementation of jscore. It is built for simple use cases and not for downloading large files as such.
 Simple actions like calling API's and extracting JSON will work seaminglessly.</p>
+<p><strong>Example:</strong></p>
+<pre><code class="language-js">// The second param is optional
+const response = await fetch("https://api.github.com/repos/ewwii-sh/ewwii");
+const json = await response.json();
+console.log(json)
+</code></pre>
 <h2 id="timers"><a class="header" href="#timers">Timers</a></h2>
 <p>The timers like <code>setInterval</code>, <code>setTimeout</code>, etc. does not exist in <code>deno_core</code>. As these are simple functions,
 jscore has them built-in.</p>

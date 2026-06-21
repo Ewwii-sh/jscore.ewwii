@@ -593,6 +593,71 @@ remove_classes([string]);
 }
 </code></pre>
 <p>Do note that all of these runs all at once. Ideally, you'd use <code>async</code> combined with other functions to update widgets programmically.</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="tools"><a class="header" href="#tools">Tools</a></h1>
+<p>Jscore exposes tools to help with you do most of the work from within JavaScript itself. You can imports the tools like so:</p>
+<pre><code class="language-js">import * as Tools from "ewwii/tools";
+</code></pre>
+<h2 id="cmd"><a class="header" href="#cmd">cmd</a></h2>
+<p>The command namespace. This contains all functions related to commands.</p>
+<p><strong>Methods:</strong></p>
+<ul>
+<li><code>run(cmd)</code></li>
+<li><code>run_read(cmd)</code></li>
+</ul>
+<p><strong>Example:</strong></p>
+<pre><code class="language-js">Tools.cmd.run("notify-send Hi");
+const output = Tools.cmd.run_read("echo Hi");
+</code></pre>
+<h2 id="fs"><a class="header" href="#fs">fs</a></h2>
+<p>The file system namespace. This contains functions that can modify/interact the file system.</p>
+<p><strong>Methods:</strong></p>
+<ul>
+<li><code>read(path)</code></li>
+<li><code>write(path, content)</code></li>
+<li><code>append(path, contnet)</code></li>
+<li><code>remove(path)</code></li>
+<li><code>exists(path)</code></li>
+<li><code>mkdir(path)</code></li>
+<li><code>readdir(path)</code></li>
+<li><code>stat(path)</code></li>
+<li><code>copy(src, dest)</code></li>
+<li><code>move(src, dest)</code></li>
+</ul>
+<p><strong>Example:</strong></p>
+<pre><code class="language-js">const path = "./example.js";
+
+// Read to a variable
+const contents_now = Tools.fs.read(path);
+
+// Replace contents with "Hello, World!"
+Tools.fs.write(path, "Hello, World!");
+
+// Add previous content back below "Hello, World!"
+Tools.fs.append(path, contents_now);
+
+// Now delete the file
+Tools.fs.remove(path);
+
+// Check if it exists
+if (Tools.fs.exists(path)) {
+    // will not reach
+    // as we removed it
+}
+
+// Make a directory
+const directory = "mydir";
+Tools.fs.mkdir(directory);
+
+// read all files (will be empty)
+const files = Tools.fs.readdir(directory);
+
+// get info about the dir 
+const info = Tools.fs.stat(directory);
+
+// copy/move a dir/file 
+Tools.fs.copy(directory, "newdir");
+Tools.fs.move("newdir", "newdir_moved");
+</code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="builtins"><a class="header" href="#builtins">Builtins</a></h1>
 <p>Jscore is built on top of <code>deno_core</code>, which is a very minimal JavaScript evaluation engine which does not support
 things like timers, web, and more. To combat this, instead of using <code>deno_runtime</code>, which would make the binary size

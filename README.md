@@ -2,6 +2,12 @@
 
 Ewwii plugin providing JavaScript language support in a unique way.
 
+## Features
+
+- **npm support**: Wide range of packages from js ecosystem
+- **v8 engine**: Blazingly fast evaluation
+- **self-sufficient**: No need to rely on external scripts
+
 ## Installation
 
 You can use the following command to install jscore using [eiipm](https://github.com/ewwii-sh/eiipm).

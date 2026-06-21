@@ -1,6 +1,7 @@
 use deno_core::op2;
 use super::DenoOpError;
 use tokio::process::Command;
+use deno_core::error::CoreError;
 
 #[op2]
 #[string]

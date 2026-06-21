@@ -111,47 +111,19 @@ globalThis.fetch = async (url, options = {}) => {
 // === Encoder/Decoder === //
 class TextEncoder {
     encode(string) {
-        const bytes = new Uint8Array(string.length);
-
-        for (let i = 0; i < string.length; i++) {
-            const code = string.charCodeAt(i);
-            bytes[i] = code;
-        }
-
-        return bytes;
+        return Deno.core.ops.op_encode(string);
     }
-
     encodeInto(string, buffer) {
-        let read = 0;
-        let written = 0;
-
-        while (read < string.length && written < buffer.length) {
-            const code = string.charCodeAt(read);
-            buffer[written] = code;
-
-            read++;
-            written++;
-        }
-
-        return {
-            read: read,
-            written: written
-        };
+        const encoded = Deno.core.ops.op_encode(string);
+        const written = Math.min(encoded.length, buffer.length);
+        buffer.set(encoded.subarray(0, written));
+        return { read: string.length, written };
     }
 }
 
 class TextDecoder {
     decode(buffer) {
-        let string = '';
-
-        for (let i = 0; i < buffer.length; i++) {
-            const byte = buffer[i];
-            const char = String.fromCharCode(byte);
-
-            string += char;
-        }
-
-        return string;
+        return Deno.core.ops.op_decode(buffer);
     }
 }
 

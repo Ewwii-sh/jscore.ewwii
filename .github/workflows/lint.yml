@@ -23,7 +23,7 @@ jobs:
       - name: Install ESLint
         run: |
           pnpm setup
-          pnpm install -g eslint
+          pnpm install eslint globals
 
       - name: Scan Files
-        run: eslint "src/bootstrap//*.js"
+        run: npx eslint "src/bootstrap//*.js"

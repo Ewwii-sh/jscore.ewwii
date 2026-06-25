@@ -9,6 +9,7 @@ import * as Tools from "ewwii/tools";
 ## stream
 
 The stream namespace. This contains functions that can stream data to a closure. **Useful alongisde after_render**.
+The functions return an object that has the `stop` method, which when called stops the stream.
 
 **Methods:**
 
@@ -22,10 +23,12 @@ All the methods are **sync**.
 export function after_render(api) {
     const myLabel = api.find("cool-text");
 
-    Tools.stream.time((t) => {
+    let handle = Tools.stream.time((t) => {
         console.log(`System ticked at: ${t.iso}`);
         myLabel.set_property("text", t.string);
     });
+
+    // handle.stop() -> stops the stream
 }
 ```
 

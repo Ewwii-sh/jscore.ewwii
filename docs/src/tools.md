@@ -42,6 +42,7 @@ All methods are **async**.
 
 - `run(cmd)`
 - `run_read(cmd)`
+- `listen(cmd, closure)`
 
 **Example:**
 
@@ -50,6 +51,11 @@ await Tools.cmd.run("notify-send Hi");
 
 const output = await Tools.cmd.run_read("echo Hi");
 console.log(output); // "Hi"
+
+Tools.cmd.listen("tail -f file.txt", (line) => {
+    // perform operations here
+    console.log(line);
+});
 ```
 
 ## fs 

@@ -6,6 +6,21 @@ const cmd = {
     },
     async run_read(str) {
         return await Deno.core.ops.op_run(str);
+    },
+    async listen(str, closure) {
+        const handle = await Deno.core.ops.op_run_listen(str);
+        try {
+            while (true) {
+                const eventData = await Deno.core.ops.op_event_update(handle);
+                if (eventData === null) break; 
+                
+                closure(eventData); 
+            }
+        } catch (err) {
+            console.error("Error in event listener loop:", err);
+        } finally {
+            await Deno.core.ops.op_event_cleanup(handle);
+        }
     }
 };
 

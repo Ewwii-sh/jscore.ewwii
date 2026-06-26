@@ -216,12 +216,18 @@ The functions return an object that has the <code>stop</code> method, which when
 <ul>
 <li><code>run(cmd)</code></li>
 <li><code>run_read(cmd)</code></li>
+<li><code>listen(cmd, closure)</code></li>
 </ul>
 <p><strong>Example:</strong></p>
 <pre><code class="language-js">await Tools.cmd.run("notify-send Hi");
 
 const output = await Tools.cmd.run_read("echo Hi");
 console.log(output); // "Hi"
+
+Tools.cmd.listen("tail -f file.txt", (line) =&gt; {
+    // perform operations here
+    console.log(line);
+});
 </code></pre>
 <h2 id="fs"><a class="header" href="#fs">fs</a></h2>
 <p>The file system namespace. This contains functions that can modify/interact the file system.</p>

@@ -63,7 +63,7 @@ const fs = {
 const stream = {
     time(callback, ms = 1000) {
         if (typeof callback !== "function") {
-            throw new TypeError("drive_time expects a closure function");
+            throw new TypeError("time stream expects a closure function");
         }
 
         const intervalId = setInterval(async () => {
@@ -86,6 +86,35 @@ const stream = {
         return {
             stop: () => clearInterval(intervalId)
         };
+    },
+    volume(callback) {
+        if (typeof callback !== "function") {
+            throw new TypeError("volume stream expects a closure function");
+        }
+
+        cmd.listen(`
+get_vol() {
+  if command -v pamixer &>/dev/null; then
+    if [ "$(pamixer --get-mute)" = "true" ]; then
+      echo 0
+    else
+      pamixer --get-volume
+    fi
+  else
+    amixer -D pulse sget Master | awk -F '[^0-9]+' '/Left:/{print $3}'
+  fi
+}
+
+get_vol
+
+pactl subscribe | while read -r line; do
+  if echo "$line" | grep -q "sink"; then
+    get_vol
+  fi
+done
+            `, (line) => {
+            callback(line);
+        });
     }
 }
 

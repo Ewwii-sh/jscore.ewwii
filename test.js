@@ -1,7 +1,7 @@
 import * as Tools from "ewwii/tools";
 
-Tools.cmd.listen("tail -f ~/Desktop/test", (a) => {
-    console.log(a)
+Tools.stream.volume((vol) => {
+    console.log(vol);
 });
 
-console.log("This should run first");
+console.log("must print");

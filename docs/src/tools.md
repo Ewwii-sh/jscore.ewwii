@@ -16,6 +16,7 @@ The functions return an object that has the `stop` method, which when called sto
 All the methods are **sync**.
 
 - `time`
+- `volume`
 
 **Example:**
 
@@ -29,6 +30,10 @@ export function after_render(api) {
     });
 
     // handle.stop() -> stops the stream
+
+    Tools.stream.volume((v) => {
+        console.log(`Current vol: ${v}`);
+    });
 }
 ```
 

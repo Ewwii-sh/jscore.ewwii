@@ -202,12 +202,10 @@ The functions return an object that has the <code>stop</code> method, which when
 <pre><code class="language-js">export function after_render(api) {
     const myLabel = api.find("cool-text");
 
-    let handle = Tools.stream.time((t) =&gt; {
+    Tools.stream.time((t) =&gt; {
         console.log(`System ticked at: ${t.iso}`);
         myLabel.set_property("text", t.string);
     });
-
-    // handle.stop() -&gt; stops the stream
 
     Tools.stream.volume((v) =&gt; {
         console.log(`Current vol: ${v}`);

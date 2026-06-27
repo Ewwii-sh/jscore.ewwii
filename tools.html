@@ -196,6 +196,7 @@ The functions return an object that has the <code>stop</code> method, which when
 <p>All the methods are <strong>sync</strong>.</p>
 <ul>
 <li><code>time</code></li>
+<li><code>volume</code></li>
 </ul>
 <p><strong>Example:</strong></p>
 <pre><code class="language-js">export function after_render(api) {
@@ -207,6 +208,10 @@ The functions return an object that has the <code>stop</code> method, which when
     });
 
     // handle.stop() -&gt; stops the stream
+
+    Tools.stream.volume((v) =&gt; {
+        console.log(`Current vol: ${v}`);
+    });
 }
 </code></pre>
 <h2 id="cmd"><a class="header" href="#cmd">cmd</a></h2>

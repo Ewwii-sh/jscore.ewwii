@@ -24,12 +24,10 @@ All the methods are **sync**.
 export function after_render(api) {
     const myLabel = api.find("cool-text");
 
-    let handle = Tools.stream.time((t) => {
+    Tools.stream.time((t) => {
         console.log(`System ticked at: ${t.iso}`);
         myLabel.set_property("text", t.string);
     });
-
-    // handle.stop() -> stops the stream
 
     Tools.stream.volume((v) => {
         console.log(`Current vol: ${v}`);

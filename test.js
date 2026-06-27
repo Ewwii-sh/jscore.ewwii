@@ -1,7 +1,8 @@
 import * as Tools from "ewwii/tools";
 
-Tools.stream.volume((vol) => {
-    console.log(vol);
+const handle = Tools.cmd.listen("tail -f file.txt", (line) => {
+    // perform operations here
+    console.log(line);
 });
 
-console.log("must print");
+
